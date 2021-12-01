@@ -36,6 +36,12 @@ userRoutes.forEach((route) => {
   app.route(route);
 });
 
+const boardRoutes = require('./routes/board.route');
+
+boardRoutes.forEach((route) => {
+  app.route(route);
+});
+
 const start = async () => {
   try {
     await app.ready();
