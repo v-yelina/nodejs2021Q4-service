@@ -28,7 +28,19 @@ const addBoardValidation = {
       properties: {
         id: { type: 'string' },
         title: { type: 'string' },
-        columns: { type: 'array' },
+        columns: {
+          type: 'array',
+          properties: {
+            items: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                title: { type: 'string' },
+                order: { type: 'integer' },
+              },
+            },
+          },
+        },
       },
     },
   },

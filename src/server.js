@@ -1,4 +1,4 @@
-const app = require('fastify')({ logger: true });
+const fastify = require('fastify')({ logger: true });
 const fastifyEnv = require('fastify-env');
 
 const schema = {
@@ -19,35 +19,41 @@ const options = {
   data: process.env,
 };
 
-app.register(fastifyEnv, options).ready((err) => {
+fastify.register(fastifyEnv, options).ready((err) => {
   if (err) {
-    app.log.error(err);
+    fastify.log.error(err);
     process.exit(1);
   }
 });
 
-app.get('/', async (request, reply) => {
+fastify.get('/', async (request, reply) => {
   reply.send({ hello: 'This is Task-4 REST service' });
 });
 
 const userRoutes = require('./routes/user.route');
 
 userRoutes.forEach((route) => {
-  app.route(route);
+  fastify.route(route);
 });
 
 const boardRoutes = require('./routes/board.route');
 
 boardRoutes.forEach((route) => {
-  app.route(route);
+  fastify.route(route);
+});
+
+const taskRoutes = require('./routes/task.route');
+
+taskRoutes.forEach((route) => {
+  fastify.route(route);
 });
 
 const start = async () => {
   try {
-    await app.ready();
-    await app.listen(app.config.PORT);
+    await fastify.ready();
+    await fastify.listen(fastify.config.PORT);
   } catch (err) {
-    app.log.error(err);
+    fastify.log.error(err);
     process.exit(1);
   }
 };
