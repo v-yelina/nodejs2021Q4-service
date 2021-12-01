@@ -20,23 +20,26 @@ const options = {
 };
 
 app.register(fastifyEnv, options).ready((err) => {
-  if (err) console.error(err);
+  if (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
 });
 
 app.get('/', async (request, reply) => {
   reply.send({ hello: 'This is Task-4 REST service' });
 });
 
-// const userRoutes = require("./src/routes/user.route");
-// userRoutes.forEach((route, index) => {
-//   app.route(route);
-// });
+const userRoutes = require('./routes/user.route');
+
+userRoutes.forEach((route) => {
+  app.route(route);
+});
 
 const start = async () => {
   try {
     await app.ready();
     await app.listen(app.config.PORT);
-    app.log.info(`Server listening on PORTs:${app.config.PORT}`);
   } catch (err) {
     app.log.error(err);
     process.exit(1);
