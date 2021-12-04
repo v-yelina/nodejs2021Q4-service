@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 let { boards } = require('../bd');
+let { tasks } = require('../bd');
 
 const getAllBoards = async (req, reply) => {
   reply.code(200).send(boards);
@@ -43,6 +44,7 @@ const updateBoard = async (req, reply) => {
 
 const deleteBoard = async (req, reply) => {
   const { id } = req.params;
+  tasks = tasks.filter((task) => task.boardId !== id);
   boards = boards.filter((board) => board.id !== id);
   reply.code(204).send();
 };

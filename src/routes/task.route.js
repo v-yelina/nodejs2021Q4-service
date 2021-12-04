@@ -8,12 +8,14 @@ const {
 const {
   getTaskValidation,
   addTaskValidation,
+  getTasksByBoardValidation,
 } = require('../models/task.model');
 
 const taskRoutes = [
   {
     method: 'GET',
     url: '/boards/:boardId/tasks',
+    schema: getTasksByBoardValidation,
     handler: getAllTasks,
   },
   {
