@@ -1,16 +1,20 @@
-const {
+// @ts-ignore
+
+import {
   getAllBoards,
   getOneBoard,
   addBoard,
   updateBoard,
   deleteBoard,
-} = require('../controllers/board.controller');
-const {
+} from '../controllers/board.controller';
+// @ts-ignore
+
+import {
   getBoardValidation,
   addBoardValidation,
-} = require('../models/board.model');
+} from '../schemas/board.schema';
 
-const boardRoutes = [
+export const boardRoutes = [
   {
     method: 'GET',
     url: '/boards',

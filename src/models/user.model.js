@@ -1,37 +1,17 @@
-const getUserValidation = {
-  params: {
-    id: { type: 'string' },
-  },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        name: { type: 'string' },
-        login: { type: 'string' },
-      },
-    },
-  },
-};
+const uuid = require('uuid');
 
-const addUserValidation = {
-  body: {
-    type: 'object',
-    required: ['name'],
-    properties: {
-      name: { type: 'string' },
-    },
-  },
-  response: {
-    201: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        name: { type: 'string' },
-        login: { type: 'string' },
-      },
-    },
-  },
-};
+class User {
+  constructor({ name, login, password } = {}) {
+    this.id = uuid.v4();
+    this.name = name;
+    this.login = login;
+    this.password = password;
+  }
 
-module.exports = { getUserValidation, addUserValidation };
+  static toResponse(user) {
+    const { id, name, login } = user;
+    return { id, name, login };
+  }
+}
+
+module.exports = User;

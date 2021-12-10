@@ -1,17 +1,21 @@
-const {
+// @ts-ignore
+
+import {
   getAllTasks,
   getOneTask,
   addTask,
   updateTask,
   deleteTask,
-} = require('../controllers/task.controller');
-const {
+} from '../controllers/task.controller';
+// @ts-ignore
+
+import {
   getTaskValidation,
   addTaskValidation,
   getTasksByBoardValidation,
-} = require('../models/task.model');
+} from '../schemas/task.schema';
 
-const taskRoutes = [
+export const taskRoutes = [
   {
     method: 'GET',
     url: '/boards/:boardId/tasks',
