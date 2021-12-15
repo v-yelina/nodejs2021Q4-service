@@ -3,7 +3,7 @@ import {userSchema} from "../schemas/user.schema";
 import { FastifyInstance, FastifyPluginAsync, FastifySchema, RouteShorthandOptions } from 'fastify';
 
 export const userRoutes: FastifyPluginAsync = async (server: FastifyInstance, opts: RouteShorthandOptions): Promise<void> => {
-  server.get('/users/', {schema: userSchema.getOneUserSchema}, getAllUsers);
+  server.get('/users', {schema: userSchema.getAllUsersSchema}, getAllUsers);
   server.get('/users/:id', {schema: userSchema.getOneUserSchema}, getOneUser);
   server.post('/users', { schema: userSchema.addUserSchema}, addUser);
   server.put('/users/:id', { schema: userSchema.updateUserSchema}, updateUser);

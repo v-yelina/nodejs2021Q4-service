@@ -1,90 +1,108 @@
-import {IUser, INewUser, IUserUpdate} from '../interfaces/user.interfaces'
-import {users} from "../bd";
-import User from '../models/user.model.js';
+import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
+import { users } from '../bd';
+import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-
-export async function getAllUsers (_request: FastifyRequest, _reply:FastifyReply) {
-  return users.length ? users.map((user: User) => ({
-      id: user.id,
-      name: user.name,
-      login: user.login,
-    }))
+export async function getAllUsers(
+  _request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const res = users.length
+    ? users.map((user: IUser) => ({
+        id: user.id,
+        name: user.name,
+        login: user.login,
+      }))
     : users;
+  return reply.send(res);
+}
+
+/**
+ * Returns the user with a given id.
+ *
+ *
+ * @param id - The id of user which should be found
+ * @returns IUser with given id (without password)
+ *
+ */
+export async function getOneUser(
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+): Promise<{ name: string; id: string; login: string } | undefined> {
+  const id: string = request.params.id;
+  const user: IUser | undefined = users.find((us: IUser) => us.id === id);
+  if (user) {
+    return reply.send({ id: user.id, name: user.name, login: user.login });
   }
+  return reply.status(404).send({ message: 'User with such ID was not found' });
+}
 
+/**
+ * Add new user to database.
+ *
+ *
+ * @param data - New user data
+ * @returns newUser - created user
+ *
+ */
+export async function addUser(
+  request: FastifyRequest<{ Body: IUserUpdate }>,
+  reply: FastifyReply
+): Promise<{ name: string; id: string; login: string } | undefined> {
+  const data = request.body;
+  const newUser: INewUser | undefined = { id: uuid(), ...data };
+  users.push(newUser);
+  return reply.status(201).send(newUser);
+}
 
-  /**
-   * Returns the user with a given id.
-   *
-   *
-   * @param id - The id of user which should be found
-   * @returns IUser with given id (without password)
-   *
-   */
-  export async function getOneUser(request: FastifyRequest<{ Params: { id: string } }>, _reply:FastifyReply): Promise<{ name: string; id: string; login: string; } | undefined> {
-    const id: string = request.params.id; 
-    const user: IUser | undefined = new User(users.find((us: IUser) => us.id === id));
-    if (user) {
-      return { id: user.id, name: user.name, login: user.login };
-    }
-    return undefined;
-    ;
+export async function updateUser(
+  request: FastifyRequest<{ Params: { id: string }; Body: IUserUpdate }>,
+  reply: FastifyReply
+): Promise<
+  { name: string; id: string; login: string; password: string } | string
+> {
+  const id: string = request.params.id;
+  const data = request.body;
+  const indexToChange: number = users.findIndex(
+    (user: IUser) => user.id === id
+  );
+  if (indexToChange === -1)
+    return reply.code(404).send('User with such id not found');
+  const updatedUser: IUser = { id, ...data };
+  users.splice(indexToChange, 1, updatedUser);
+  // users = users.map((user: IUser) => {
+  //   if (user.id === id) {
+  //     return {
+  //       id,
+  //       ...data,
+  //     };
+  //   }
+  //   return updatedUser;
+  // });
+  return reply.status(200).send(updatedUser);
+}
+
+export async function deleteUser(
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+): Promise<{ name: string; id: string; login: string } | undefined> {
+  const id: string = request.params.id;
+  const indexToDelete: number = users.findIndex(
+    (user: IUser) => user.id === id
+  );
+  if (indexToDelete === -1) {
+    return reply.status(404).send('User with such ID was not found');
   }
-
-
-  /**
-   * Add new user to database.
-   *
-   *
-   * @param data - New user data
-   * @returns newUser - created user
-   *
-   */
- export async function addUser (request: FastifyRequest<{ Body: IUserUpdate }>, _reply:FastifyReply): Promise<{ name: string; id: string; login: string; } | undefined> {
-   const data = request.body;
-    const newUser: INewUser | undefined = new User(data);
-    users.push(newUser);
-    return newUser;
-  };
-
-  export async function updateUser (request: FastifyRequest<{Params: { id: string }, Body: IUserUpdate }>, _reply:FastifyReply): Promise<{ name: string; id: string; login: string; password: string } | string> {
-    const id: string = request.params.id;
-    const data = request.body;
-    const indexToChange: number = users.findIndex((user: IUser) => user.id === id);
-    if (indexToChange === -1) return 'User not found';
-    const updatedUser: IUser = {id,
-          ...data};
-    users.splice(indexToChange, 1, updatedUser);
-    // users = users.map((user: IUser) => {
-    //   if (user.id === id) {
-    //     return {
-    //       id,
-    //       ...data,
-    //     };
-    //   }
-    //   return updatedUser;
-    // });
-    return {
-      id,
-      ...data,
-    };
-  };
-
-  export async function deleteUser (request: FastifyRequest<{ Params: { id: string } }>, _reply:FastifyReply): Promise<{ name: string; id: string; login: string; } | undefined> {
-    const id: string = request.params.id;
-    const indexToDelete: number = users.findIndex((user: IUser) => user.id === id);
-    users.splice(indexToDelete, 1);
-    // tasks = tasks.map((task) => {
-    //   if (task.userId === id) {
-    //     return {
-    //       ...task as {},
-    //       userId: null,
-    //     };
-    //   }
-    //   return task;
-    // });
-    // users = users.filter((user: User) => user.id !== id);
-    return;
-  };
-
+  users.splice(indexToDelete, 1);
+  // tasks = tasks.map((task) => {
+  //   if (task.userId === id) {
+  //     return {
+  //       ...task as {},
+  //       userId: null,
+  //     };
+  //   }
+  //   return task;
+  // });
+  // users = users.filter((user: User) => user.id !== id);
+  return reply.status(204).send();
+}

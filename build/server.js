@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const user_route_1 = require("./routes/user.route");
+const task_route_1 = require("./routes/task.route");
 const server = (0, fastify_1.default)();
 // const schema = {
 //   type: 'object',
@@ -32,7 +33,7 @@ const server = (0, fastify_1.default)();
 //   data: process.env,
 // };
 server.register(user_route_1.userRoutes);
-// server.register(taskRoutes);
+server.register(task_route_1.taskRoutes);
 // server.register(boardRoutes);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

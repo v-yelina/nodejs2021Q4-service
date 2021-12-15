@@ -5,7 +5,8 @@ export const getAllUsersSchema = {
     id: { type: 'string' },
   },
   response: {
-    type: 'array',
+    200: {
+      type: 'array',
       items: {
         type: 'object',
         properties: {
@@ -15,6 +16,7 @@ export const getAllUsersSchema = {
       },
     },
   },
+  }
 };
 
 export const getOneUserSchema = {
@@ -57,6 +59,9 @@ export const addUserSchema= {
 
 
 export const updateUserSchema = {
+  params: {
+    id: { type: 'string' },
+  },
   body: {
     type: 'object',
     properties: {
