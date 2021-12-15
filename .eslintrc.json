@@ -18,7 +18,12 @@
     }
   },
   "settings": {
-    "noInlineConfig": true
+    "noInlineConfig": true,
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
   "extends": [
     "eslint:recommended",
@@ -26,7 +31,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb-base",
-    "prettier"
+    "prettier",
+    "plugin:import/typescript"
   ],
   "rules": {
     "import/extensions": "off",
