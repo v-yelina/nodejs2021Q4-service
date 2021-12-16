@@ -3,6 +3,14 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ITask, INewTask, ITaskUpdate } from '../interfaces/task.interfaces';
 import { tasks } from '../bd';
 
+/**
+ * Returns all tasks of a board with given id
+ *
+ * @param request - Client request with board id (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Array of all tasks or error message when tasks wasn't found
+ *
+ */
 export async function getAllTasks(
   request: FastifyRequest,
   reply: FastifyReply
@@ -15,6 +23,14 @@ export async function getAllTasks(
   return reply.code(200).send(tasksByBoard);
 }
 
+/**
+ * Returns a task with a given id
+ *
+ * @param request - Client request with task id (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Task with given id or error message when user wasn't found
+ *
+ */
 export async function getOneTask(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
@@ -33,10 +49,18 @@ export async function getOneTask(
   const id = request.url.split('/')[4];
   const task = tasks.find((item) => item.id === id);
   if (!task) return reply.code(404).send({ message: 'Task not found' });
-  reply.code(200).send(task);
-  return task;
+
+  return reply.code(200).send(task);
 }
 
+/**
+ * Adds new task to board with given id.
+ *
+ * @param request - Request with board id and which body contains new task data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Created task
+ *
+ */
 export async function addTask(
   request: FastifyRequest<{
     Body: ITaskUpdate;
@@ -65,6 +89,14 @@ export async function addTask(
   return reply.code(201).send(newTask);
 }
 
+/**
+ * Updates task.
+ *
+ * @param request - Request with id of a task, which should be changed and which body contains new task's data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Updated task
+ *
+ */
 export async function updateTask(
   request: FastifyRequest<{ Params: { id: string }; Body: ITaskUpdate }>,
   reply: FastifyReply
@@ -85,6 +117,14 @@ export async function updateTask(
   return reply.status(200).send(updatedTask);
 }
 
+/**
+ * Deletes the task with a given id.
+ *
+ * @param request - Request with the id of a task which should be deleted (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Status 204 without data
+ *
+ */
 export async function deleteTask(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply

@@ -30,7 +30,7 @@ export async function getAllUsers(
  *
  * @param request - Request with the id of user which should be found (type: FastifyRequest)
  * @param reply - Server reply (type: FastifyReply)
- * @returns user with given id (without password) or error message when user wasn't found
+ * @returns User with given id (without password) or error message when user wasn't found
  *
  */
 export async function getOneUser(
@@ -50,7 +50,7 @@ export async function getOneUser(
  *
  * @param request - Request which body contains new user data (type: FastifyRequest)
  * @param reply - Server reply (type: FastifyReply)
- * @returns Created user
+ * @returns Created user without password
  *
  */
 export async function addUser(

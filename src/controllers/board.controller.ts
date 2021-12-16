@@ -7,6 +7,14 @@ import {
 } from '../interfaces/board.interfaces';
 import { boards, tasks } from '../bd';
 
+/**
+ * Returns all boards
+ *
+ * @param _request - Client request (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Array of all boards
+ *
+ */
 export async function getAllBoards(
   _request: FastifyRequest,
   reply: FastifyReply
@@ -14,6 +22,14 @@ export async function getAllBoards(
   return reply.code(200).send(boards);
 }
 
+/**
+ * Returns the board with a given id.
+ *
+ * @param request - Request with the id of a board which should be found (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Board with given id or error message when board wasn't found
+ *
+ */
 export async function getOneBoard(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
@@ -38,6 +54,14 @@ export async function getOneBoard(
   return reply.code(200).send(board);
 }
 
+/**
+ * Adds new board to database.
+ *
+ * @param request - Request which body contains new board data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Created board
+ *
+ */
 export async function addBoard(
   request: FastifyRequest<{ Body: IBoardUpdate }>,
   reply: FastifyReply
@@ -59,6 +83,14 @@ export async function addBoard(
   return reply.code(201).send(newBoard);
 }
 
+/**
+ * Updates board.
+ *
+ * @param request - Request with id of a board, which should be changed and which body contains new board's data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Updated board
+ *
+ */
 export async function updateBoard(
   request: FastifyRequest<{ Params: { id: string }; Body: IBoardUpdate }>,
   reply: FastifyReply
@@ -87,6 +119,14 @@ export async function updateBoard(
   return reply.status(200).send(updatedBoard);
 }
 
+/**
+ * Deletes the board with a given id and board's tasks.
+ *
+ * @param request - Request with the id of board which should be deleted (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Status 204 without data
+ *
+ */
 export async function deleteBoard(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
