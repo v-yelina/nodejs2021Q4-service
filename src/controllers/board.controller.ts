@@ -84,23 +84,6 @@ export async function updateBoard(
   const updatedBoard: IBoard = { id, ...data };
   boards.splice(indexToChange, 1, updatedBoard);
 
-  // if (!boards.find((board) => board.id === id)) return reply.code(404).send();
-
-  // boards = boards.map((board) => {
-  //   if (board.id === id) {
-  //     return {
-  //       id,
-
-  //       ...req.body,
-  //     };
-  //   }
-  //   return board;
-  // });
-  // return {
-  //   id,
-
-  //   ...req.body,
-  // };
   return reply.status(200).send(updatedBoard);
 }
 

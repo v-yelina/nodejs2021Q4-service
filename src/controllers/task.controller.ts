@@ -65,7 +65,6 @@ export async function updateTask(
 ): Promise<
   { name: string; id: string; login: string; password: string } | string
 > {
-  const boardId = request.url.split('/')[2];
   const id = request.url.split('/')[4];
   const data = request.body;
   const indexToChange: number = tasks.findIndex(
@@ -76,17 +75,7 @@ export async function updateTask(
   }
   const updatedTask: ITask = { id, ...data };
   tasks.splice(indexToChange, 1, updatedTask);
-  // if (!tasks.find((task) => task.id === id && task.boardId === boardId))
-  //   return reply.code(404).send();
-  // tasks = tasks.map((task) => {
-  //   if (task.id === id && task.boardId === boardId) {
-  //     return {
-  //       id,
-  //       ...req.body,
-  //     };
-  //   }
-  //   return task;
-  // });
+
   return reply.status(200).send(updatedTask);
 }
 
@@ -112,7 +101,6 @@ export async function deleteTask(
   if (indexToDelete === -1) {
     return reply.status(404).send('User with such ID was not found');
   }
-  // tasks = tasks.filter((task) => task.id !== id);
   tasks.splice(indexToDelete, 1);
   return reply.code(204).send();
 }

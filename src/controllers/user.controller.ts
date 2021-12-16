@@ -2,7 +2,7 @@ import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
 import { users, tasks } from '../bd';
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ITask, ITaskUpdate } from '../interfaces/task.interfaces';
+import { ITask } from '../interfaces/task.interfaces';
 
 export async function getAllUsers(
   _request: FastifyRequest,
@@ -73,15 +73,7 @@ export async function updateUser(
     return reply.code(404).send('User with such id not found');
   const updatedUser: IUser = { id, ...data };
   users.splice(indexToChange, 1, updatedUser);
-  // users = users.map((user: IUser) => {
-  //   if (user.id === id) {
-  //     return {
-  //       id,
-  //       ...data,
-  //     };
-  //   }
-  //   return updatedUser;
-  // });
+
   return reply.status(200).send(updatedUser);
 }
 
@@ -108,15 +100,5 @@ export async function deleteUser(
     }
   }
 
-  // tasks = tasks.map((task) => {
-  //   if (task.userId === id) {
-  //     return {
-  //       ...task as {},
-  //       userId: null,
-  //     };
-  //   }
-  //   return task;
-  // });
-  // users = users.filter((user: User) => user.id !== id);
   return reply.status(204).send();
 }

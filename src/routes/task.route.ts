@@ -15,7 +15,7 @@ import { taskSchema } from '../schemas/task.schema';
 
 export const taskRoutes: FastifyPluginAsync = async (
   server: FastifyInstance,
-  opts: RouteShorthandOptions
+  _opts: RouteShorthandOptions
 ): Promise<void> => {
   server.get(
     '/boards/:boardId/tasks',
@@ -43,36 +43,3 @@ export const taskRoutes: FastifyPluginAsync = async (
     deleteTask
   );
 };
-
-// export const taskRoutes = [
-//   {
-//     method: 'GET',
-//     url: '/boards/:boardId/tasks',
-//     schema: getTasksByBoardValidation,
-//     handler: getAllTasks,
-//   },
-//   {
-//     method: 'GET',
-//     url: '/boards/:boardId/tasks/:id',
-//     schema: getTaskValidation,
-//     handler: getOneTask,
-//   },
-//   {
-//     method: 'POST',
-//     url: '/boards/:boardId/tasks',
-//     schema: addTaskValidation,
-//     handler: addTask,
-//   },
-//   {
-//     method: 'PUT',
-//     url: '/boards/:boardId/tasks/:id',
-//     handler: updateTask,
-//   },
-//   {
-//     method: 'DELETE',
-//     url: '/boards/:boardId/tasks/:id',
-//     handler: deleteTask,
-//   },
-// ];
-
-// module.exports = taskRoutes;
