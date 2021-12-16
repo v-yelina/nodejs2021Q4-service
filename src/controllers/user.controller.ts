@@ -1,8 +1,7 @@
-import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
-import { users, tasks } from '../bd';
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ITask } from '../interfaces/task.interfaces';
+import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
+import { users, tasks } from '../bd';
 
 export async function getAllUsers(
   _request: FastifyRequest,
@@ -30,7 +29,7 @@ export async function getOneUser(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ): Promise<{ name: string; id: string; login: string } | undefined> {
-  const id: string = request.params.id;
+  const { id } = request.params;
   const user: IUser | undefined = users.find((us: IUser) => us.id === id);
   if (user) {
     return reply.send({ id: user.id, name: user.name, login: user.login });
@@ -64,7 +63,7 @@ export async function updateUser(
 ): Promise<
   { name: string; id: string; login: string; password: string } | string
 > {
-  const id: string = request.params.id;
+  const { id } = request.params;
   const data = request.body;
   const indexToChange: number = users.findIndex(
     (user: IUser) => user.id === id
@@ -81,7 +80,14 @@ export async function deleteUser(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ): Promise<{ name: string; id: string; login: string } | undefined> {
-  const id: string = request.params.id;
+  const { id } = request.params;
+
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].userId === id) {
+      tasks[i].userId = null;
+    }
+  }
+
   const indexToDelete: number = users.findIndex(
     (user: IUser) => user.id === id
   );
@@ -89,16 +95,6 @@ export async function deleteUser(
     return reply.status(404).send('User with such ID was not found');
   }
   users.splice(indexToDelete, 1);
-
-  for (let i = 0; i < tasks.length; i++) {
-    const updatedTask: ITask = {
-      ...tasks[i],
-      userId: null,
-    };
-    if (tasks[i].userId === id) {
-      tasks.splice(i, 1, updatedTask);
-    }
-  }
 
   return reply.status(204).send();
 }

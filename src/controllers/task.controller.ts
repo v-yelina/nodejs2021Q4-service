@@ -1,7 +1,7 @@
-import { ITask, INewTask, ITaskUpdate } from '../interfaces/task.interfaces';
-import { tasks } from '../bd';
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { ITask, INewTask, ITaskUpdate } from '../interfaces/task.interfaces';
+import { tasks } from '../bd';
 
 export async function getAllTasks(
   request: FastifyRequest,
@@ -9,9 +9,10 @@ export async function getAllTasks(
 ) {
   const boardId = request.url.split('/')[2];
   const tasksByBoard = tasks.find((task) => task.boardId === boardId);
-  if (!tasksByBoard)
+
+  if (!tasksByBoard || !tasks)
     return reply.code(404).send({ message: 'Tasks not found' });
-  return reply.code(200).type('json').send(tasksByBoard);
+  return reply.code(200).send(tasksByBoard);
 }
 
 export async function getOneTask(
@@ -37,7 +38,9 @@ export async function getOneTask(
 }
 
 export async function addTask(
-  request: FastifyRequest<{ Body: ITaskUpdate }>,
+  request: FastifyRequest<{
+    Body: ITaskUpdate;
+  }>,
   reply: FastifyReply
 ): Promise<
   | {
@@ -53,8 +56,11 @@ export async function addTask(
 > {
   const boardId = request.url.split('/')[2];
   const data = request.body;
-  const newTask: INewTask | undefined = { id: uuid(), ...data };
-  newTask.boardId = boardId;
+  const newTask: INewTask | undefined = {
+    id: uuid(),
+    ...data,
+    boardId,
+  };
   tasks.push(newTask);
   return reply.code(201).send(newTask);
 }
@@ -104,11 +110,3 @@ export async function deleteTask(
   tasks.splice(indexToDelete, 1);
   return reply.code(204).send();
 }
-
-module.exports = {
-  getAllTasks,
-  getOneTask,
-  addTask,
-  updateTask,
-  deleteTask,
-};

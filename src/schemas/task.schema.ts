@@ -1,5 +1,3 @@
-export namespace taskSchema {
-
 export const getAllTasksByBoardSchema = {
   params: {
     boardId: { type: 'string' },
@@ -46,7 +44,7 @@ export const getOneTaskSchema = {
 
 export const addTaskSchema = {
   params: {
-    boardId: { type: 'string' }
+    boardId: { type: 'string' },
   },
   body: {
     type: 'object',
@@ -105,8 +103,7 @@ export const updateTaskSchema = {
       },
     },
   },
-}
-
+};
 
 export const deleteTaskSchema = {
   params: {
@@ -119,4 +116,3 @@ export const deleteTaskSchema = {
     },
   },
 };
-}

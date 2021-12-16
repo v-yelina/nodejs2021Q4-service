@@ -1,3 +1,4 @@
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
   getAllUsers,
   getOneUser,
@@ -5,24 +6,20 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/user.controller';
-import { userSchema } from '../schemas/user.schema';
 import {
-  FastifyInstance,
-  FastifyPluginAsync,
-  RouteShorthandOptions,
-} from 'fastify';
+  addUserSchema,
+  deleteUserSchema,
+  getAllUsersSchema,
+  getOneUserSchema,
+  updateUserSchema,
+} from '../schemas/user.schema';
 
 export const userRoutes: FastifyPluginAsync = async (
-  server: FastifyInstance,
-  _opts: RouteShorthandOptions
+  server: FastifyInstance
 ): Promise<void> => {
-  server.get('/users', { schema: userSchema.getAllUsersSchema }, getAllUsers);
-  server.get('/users/:id', { schema: userSchema.getOneUserSchema }, getOneUser);
-  server.post('/users', { schema: userSchema.addUserSchema }, addUser);
-  server.put('/users/:id', { schema: userSchema.updateUserSchema }, updateUser);
-  server.delete(
-    '/users/:id',
-    { schema: userSchema.deleteUserSchema },
-    deleteUser
-  );
+  server.get('/users', { schema: getAllUsersSchema }, getAllUsers);
+  server.get('/users/:id', { schema: getOneUserSchema }, getOneUser);
+  server.post('/users', { schema: addUserSchema }, addUser);
+  server.put('/users/:id', { schema: updateUserSchema }, updateUser);
+  server.delete('/users/:id', { schema: deleteUserSchema }, deleteUser);
 };

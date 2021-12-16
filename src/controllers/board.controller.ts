@@ -1,11 +1,11 @@
+import { v4 as uuid } from 'uuid';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   IBoard,
   INewBoard,
   IBoardUpdate,
 } from '../interfaces/board.interfaces';
 import { boards, tasks } from '../bd';
-import { v4 as uuid } from 'uuid';
-import { FastifyReply, FastifyRequest } from 'fastify';
 
 export async function getAllBoards(
   _request: FastifyRequest,
@@ -30,7 +30,7 @@ export async function getOneBoard(
   | undefined
 > {
   const id = request.url.split('/')[2];
-  const board = boards.find((board) => board.id === id);
+  const board = boards.find((b) => b.id === id);
   if (!board)
     return reply
       .code(404)
@@ -74,7 +74,7 @@ export async function updateBoard(
     }
   | undefined
 > {
-  const id: string = request.params.id;
+  const { id } = request.params;
   const data = request.body;
   const indexToChange: number = boards.findIndex(
     (board: IBoard) => board.id === id
@@ -102,9 +102,9 @@ export async function deleteBoard(
     }
   | undefined
 > {
-  const id: string = request.params.id;
+  const { id } = request.params;
 
-  for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i + 1) {
     if (tasks[i].boardId === id) {
       tasks.splice(i, 1);
     }

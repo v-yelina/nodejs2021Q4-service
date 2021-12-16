@@ -1,5 +1,3 @@
-export namespace userSchema {
-
 export const getAllUsersSchema = {
   params: {
     id: { type: 'string' },
@@ -13,10 +11,10 @@ export const getAllUsersSchema = {
           id: { type: 'string' },
           name: { type: 'string' },
           login: { type: 'string' },
+        },
       },
     },
   },
-  }
 };
 
 export const getOneUserSchema = {
@@ -35,7 +33,7 @@ export const getOneUserSchema = {
   },
 };
 
-export const addUserSchema= {
+export const addUserSchema = {
   body: {
     type: 'object',
     required: ['name', 'login', 'password'],
@@ -56,7 +54,6 @@ export const addUserSchema= {
     },
   },
 };
-
 
 export const updateUserSchema = {
   params: {
@@ -92,5 +89,3 @@ export const deleteUserSchema = {
     },
   },
 };
-
-}

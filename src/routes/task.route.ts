@@ -1,8 +1,4 @@
-import {
-  FastifyInstance,
-  FastifyPluginAsync,
-  RouteShorthandOptions,
-} from 'fastify';
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
   getAllTasks,
   getOneTask,
@@ -11,35 +7,36 @@ import {
   deleteTask,
 } from '../controllers/task.controller';
 
-import { taskSchema } from '../schemas/task.schema';
+import {
+  addTaskSchema,
+  deleteTaskSchema,
+  getAllTasksByBoardSchema,
+  getOneTaskSchema,
+  updateTaskSchema,
+} from '../schemas/task.schema';
 
 export const taskRoutes: FastifyPluginAsync = async (
-  server: FastifyInstance,
-  _opts: RouteShorthandOptions
+  server: FastifyInstance
 ): Promise<void> => {
   server.get(
     '/boards/:boardId/tasks',
-    { schema: taskSchema.getOneTaskSchema },
+    { schema: getAllTasksByBoardSchema },
     getAllTasks
   );
   server.get(
     '/boards/:boardId/tasks/:id',
-    { schema: taskSchema.getOneTaskSchema },
+    { schema: getOneTaskSchema },
     getOneTask
   );
-  server.post(
-    '/boards/:boardId/tasks',
-    { schema: taskSchema.addTaskSchema },
-    addTask
-  );
+  server.post('/boards/:boardId/tasks', { schema: addTaskSchema }, addTask);
   server.put(
     '/boards/:boardId/tasks/:id',
-    { schema: taskSchema.updateTaskSchema },
+    { schema: updateTaskSchema },
     updateTask
   );
   server.delete(
     '/boards/:boardId/tasks/:id',
-    { schema: taskSchema.deleteTaskSchema },
+    { schema: deleteTaskSchema },
     deleteTask
   );
 };

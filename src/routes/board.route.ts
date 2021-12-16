@@ -1,3 +1,4 @@
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
   getAllBoards,
   getOneBoard,
@@ -5,36 +6,20 @@ import {
   updateBoard,
   deleteBoard,
 } from '../controllers/board.controller';
-import { boardSchema } from '../schemas/board.schema';
 import {
-  FastifyInstance,
-  FastifyPluginAsync,
-  RouteShorthandOptions,
-} from 'fastify';
+  addBoardSchema,
+  deleteBoardSchema,
+  getAllBoardsSchema,
+  getOneBoardSchema,
+  updateBoardSchema,
+} from '../schemas/board.schema';
 
 export const boardRoutes: FastifyPluginAsync = async (
-  server: FastifyInstance,
-  _opts: RouteShorthandOptions
+  server: FastifyInstance
 ): Promise<void> => {
-  server.get(
-    '/boards',
-    { schema: boardSchema.getAllBoardsSchema },
-    getAllBoards
-  );
-  server.get(
-    '/boards/:id',
-    { schema: boardSchema.getOneBoardSchema },
-    getOneBoard
-  );
-  server.post('/boards', { schema: boardSchema.addBoardSchema }, addBoard);
-  server.put(
-    '/boards/:id',
-    { schema: boardSchema.updateBoardSchema },
-    updateBoard
-  );
-  server.delete(
-    '/boards/:id',
-    { schema: boardSchema.deleteBoardSchema },
-    deleteBoard
-  );
+  server.get('/boards', { schema: getAllBoardsSchema }, getAllBoards);
+  server.get('/boards/:id', { schema: getOneBoardSchema }, getOneBoard);
+  server.post('/boards', { schema: addBoardSchema }, addBoard);
+  server.put('/boards/:id', { schema: updateBoardSchema }, updateBoard);
+  server.delete('/boards/:id', { schema: deleteBoardSchema }, deleteBoard);
 };
