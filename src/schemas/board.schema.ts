@@ -1,32 +1,102 @@
-const getBoardValidation = {
-  params: {
-    id: { type: 'string' },
-  },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        title: { type: 'string' },
-        columns: { type: 'array' },
+export namespace boardSchema {
+  export const getAllBoardsSchema = {
+    params: {
+      id: { type: 'string' },
+    },
+    response: {
+      200: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            columns: {
+              type: 'array',
+              properties: {
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: { type: 'string' },
+                    title: { type: 'string' },
+                    order: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
-  },
-};
+  };
 
-const addBoardValidation = {
-  body: {
-    type: 'object',
-    required: ['title'],
-    properties: {
-      title: { type: 'string' },
+  export const getOneBoardSchema = {
+    params: {
+      id: { type: 'string' },
     },
-  },
-  response: {
-    201: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          title: { type: 'string' },
+          columns: {
+            type: 'array',
+            properties: {
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  order: { type: 'integer' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+  export const addBoardSchema = {
+    body: {
+      type: 'object',
+      required: ['title'],
+      properties: {
+        title: { type: 'string' },
+      },
+    },
+    response: {
+      201: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          title: { type: 'string' },
+          columns: {
+            type: 'array',
+            properties: {
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  order: { type: 'integer' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+  export const updateBoardSchema = {
+    params: {
+      id: { type: 'string' },
+    },
+    body: {
       type: 'object',
       properties: {
-        id: { type: 'string' },
         title: { type: 'string' },
         columns: {
           type: 'array',
@@ -43,7 +113,38 @@ const addBoardValidation = {
         },
       },
     },
-  },
-};
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          title: { type: 'string' },
+          columns: {
+            type: 'array',
+            properties: {
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  order: { type: 'integer' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
-module.exports = { getBoardValidation, addBoardValidation };
+  export const deleteBoardSchema = {
+    params: {
+      id: { type: 'string' },
+    },
+    response: {
+      204: {
+        type: 'string',
+      },
+    },
+  };
+}

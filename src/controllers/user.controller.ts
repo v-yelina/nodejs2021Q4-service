@@ -1,7 +1,8 @@
 import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
-import { users } from '../bd';
+import { users, tasks } from '../bd';
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { ITask, ITaskUpdate } from '../interfaces/task.interfaces';
 
 export async function getAllUsers(
   _request: FastifyRequest,
@@ -14,7 +15,7 @@ export async function getAllUsers(
         login: user.login,
       }))
     : users;
-  return reply.send(res);
+  return reply.code(200).send(res);
 }
 
 /**
@@ -52,7 +53,9 @@ export async function addUser(
   const data = request.body;
   const newUser: INewUser | undefined = { id: uuid(), ...data };
   users.push(newUser);
-  return reply.status(201).send(newUser);
+  return reply
+    .status(201)
+    .send({ id: newUser.id, name: newUser.name, login: newUser.login });
 }
 
 export async function updateUser(
@@ -94,6 +97,17 @@ export async function deleteUser(
     return reply.status(404).send('User with such ID was not found');
   }
   users.splice(indexToDelete, 1);
+
+  for (let i = 0; i < tasks.length; i++) {
+    const updatedTask: ITask = {
+      ...tasks[i],
+      userId: null,
+    };
+    if (tasks[i].userId === id) {
+      tasks.splice(i, 1, updatedTask);
+    }
+  }
+
   // tasks = tasks.map((task) => {
   //   if (task.userId === id) {
   //     return {

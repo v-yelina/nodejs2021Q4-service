@@ -25,7 +25,7 @@ const server = fastify();
 
 server.register(userRoutes);
 server.register(taskRoutes);
-// server.register(boardRoutes);
+server.register(boardRoutes);
 
 const start = async () => {
   try {
