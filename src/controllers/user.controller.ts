@@ -3,6 +3,14 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
 import { users, tasks } from '../bd';
 
+/**
+ * Returns all users
+ *
+ * @param _request - Client request (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Array of all users
+ *
+ */
 export async function getAllUsers(
   _request: FastifyRequest,
   reply: FastifyReply
@@ -20,9 +28,9 @@ export async function getAllUsers(
 /**
  * Returns the user with a given id.
  *
- *
- * @param id - The id of user which should be found
- * @returns IUser with given id (without password)
+ * @param request - Request with the id of user which should be found (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns user with given id (without password) or error message when user wasn't found
  *
  */
 export async function getOneUser(
@@ -38,11 +46,11 @@ export async function getOneUser(
 }
 
 /**
- * Add new user to database.
+ * Adds new user to database.
  *
- *
- * @param data - New user data
- * @returns newUser - created user
+ * @param request - Request which body contains new user data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Created user
  *
  */
 export async function addUser(
@@ -57,6 +65,14 @@ export async function addUser(
     .send({ id: newUser.id, name: newUser.name, login: newUser.login });
 }
 
+/**
+ * Updates user.
+ *
+ * @param request - Request with id of a user, which should be changed and which body contains new user's data (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Updated user
+ *
+ */
 export async function updateUser(
   request: FastifyRequest<{ Params: { id: string }; Body: IUserUpdate }>,
   reply: FastifyReply
@@ -76,6 +92,14 @@ export async function updateUser(
   return reply.status(200).send(updatedUser);
 }
 
+/**
+ * Deletes the user with a given id and unassigns user's tasks upon deletion.
+ *
+ * @param request - Request with the id of user which should be deleted (type: FastifyRequest)
+ * @param reply - Server reply (type: FastifyReply)
+ * @returns Status 204 without data
+ *
+ */
 export async function deleteUser(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
