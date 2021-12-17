@@ -15,6 +15,12 @@ import {
   updateTaskSchema,
 } from '../schemas/task.schema';
 
+/**
+ * Task routes
+ *
+ * @param Server (type: Fastify Instance)
+ * @returns Promise (void)
+ */
 export const taskRoutes: FastifyPluginAsync = async (
   server: FastifyInstance
 ): Promise<void> => {

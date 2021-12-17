@@ -14,6 +14,12 @@ import {
   updateUserSchema,
 } from '../schemas/user.schema';
 
+/**
+ * User routes
+ *
+ * @param Server (type: Fastify Instance)
+ * @returns Promise (void)
+ */
 export const userRoutes: FastifyPluginAsync = async (
   server: FastifyInstance
 ): Promise<void> => {

@@ -5,24 +5,6 @@ import { boardRoutes } from './routes/board.route';
 
 const server = fastify();
 
-// const schema = {
-//   type: 'object',
-//   required: ['PORT'],
-//   properties: {
-//     PORT: {
-//       type: 'number',
-//       default: 3000,
-//     },
-//   },
-// };
-
-// const options = {
-//   confKey: 'config',
-//   schema,
-//   dotenv: true,
-//   data: process.env,
-// };
-
 server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);

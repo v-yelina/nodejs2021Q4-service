@@ -14,6 +14,12 @@ import {
   updateBoardSchema,
 } from '../schemas/board.schema';
 
+/**
+ * Board routes
+ *
+ * @param Server (type: Fastify Instance)
+ * @returns Promise (void)
+ */
 export const boardRoutes: FastifyPluginAsync = async (
   server: FastifyInstance
 ): Promise<void> => {
