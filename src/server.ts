@@ -2,8 +2,11 @@ import fastify from 'fastify';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
+import { logger } from './logger';
 
-const server = fastify();
+const server = fastify({
+  logger: logger,
+});
 
 server.register(userRoutes);
 server.register(taskRoutes);
