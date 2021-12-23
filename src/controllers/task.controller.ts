@@ -11,14 +11,13 @@ import { tasks } from '../bd';
  * @returns Array of all tasks or error message when tasks wasn't found
  *
  */
-export async function getAllTasks(
+export async function getAllTasksByBoard(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   const boardId = request.url.split('/')[2];
-  const tasksByBoard = tasks.find((task) => task.boardId === boardId);
-
-  if (!tasksByBoard || !tasks)
+  const tasksByBoard = tasks.filter((task) => task.boardId === boardId);
+  if (!tasksByBoard)
     return reply.code(404).send({ message: 'Tasks not found' });
   return reply.code(200).send(tasksByBoard);
 }
@@ -83,9 +82,12 @@ export async function addTask(
   const newTask: INewTask | undefined = {
     id: uuid(),
     ...data,
-    boardId,
+    boardId: boardId,
   };
+  console.log(tasks);
   tasks.push(newTask);
+  console.log(tasks);
+
   return reply.code(201).send(newTask);
 }
 
