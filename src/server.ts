@@ -6,7 +6,7 @@ import { boardRoutes } from './routes/board.route';
 import { logger } from './logger';
 
 const server = fastify({
-  logger: logger,
+  logger,
 });
 
 server.register(userRoutes);

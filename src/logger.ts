@@ -1,6 +1,6 @@
+import pino from 'pino';
 import ENV from './common/config';
 
-import pino from 'pino';
 // import pinoms, { Streams } from 'pino-multi-stream';
 
 // const multistream = pinoms.multistream;

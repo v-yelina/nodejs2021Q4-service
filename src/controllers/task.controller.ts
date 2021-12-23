@@ -82,7 +82,7 @@ export async function addTask(
   const newTask: INewTask | undefined = {
     id: uuid(),
     ...data,
-    boardId: boardId,
+    boardId,
   };
   console.log(tasks);
   tasks.push(newTask);
