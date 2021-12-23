@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import ENV from './common/config';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
@@ -14,9 +15,9 @@ server.register(boardRoutes);
 
 const start = async () => {
   try {
-    await server.listen(4000);
+    await server.listen(ENV.PORT as string);
   } catch (err) {
-    console.error(err);
+    server.log.error(err);
     process.exit(1);
   }
 };
