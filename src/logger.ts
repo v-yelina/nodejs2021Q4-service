@@ -22,6 +22,21 @@ export const logger = pino(
       translateTime: 'yyyy-dd-mm, h:MM:ss TT',
     },
     level: ENV.LOG_LEVEL,
+    serializers: {
+      res(reply) {
+        return {
+          statusCode: reply.statusCode,
+        };
+      },
+      req(request) {
+        return {
+          method: request.method,
+          url: request.url,
+          path: request.routerPath,
+          parameters: request.params,
+        };
+      },
+    },
   }
   //   multistream(streams)
 );

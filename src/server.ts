@@ -13,6 +13,13 @@ server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);
 
+server.addHook('preHandler', function (req, _reply, done) {
+  if (req.body) {
+    req.log.info({ body: req.body }, 'parsed body');
+  }
+  done();
+});
+
 const start = async () => {
   try {
     await server.listen(ENV.PORT as string);
