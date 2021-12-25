@@ -1,4 +1,4 @@
-import fastify from 'fastify';
+import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import ENV from './common/config';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
@@ -13,6 +13,17 @@ server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);
 
+server.setErrorHandler(function setErrorHandler(
+  err: FastifyError,
+  _req: FastifyRequest,
+  _reply: FastifyReply
+) {
+  if (+err.code > 500) {
+    server.log.error(err);
+    throw err;
+  }
+});
+
 server.addHook('preHandler', function (req, _reply, done) {
   if (req.body) {
     req.log.info({ body: req.body }, 'parsed body');
@@ -22,13 +33,13 @@ server.addHook('preHandler', function (req, _reply, done) {
 
 process.on('uncaughtException', (err) => {
   server.close();
-  server.log.error(err);
+  server.log.fatal(err);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (err) => {
   server.close();
-  server.log.error(err);
+  server.log.fatal(err);
   process.exit(1);
 });
 
