@@ -20,6 +20,18 @@ server.addHook('preHandler', function (req, _reply, done) {
   done();
 });
 
+process.on('uncaughtException', (err) => {
+  server.close();
+  server.log.error(err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  server.close();
+  server.log.error(err);
+  process.exit(1);
+});
+
 const start = async () => {
   try {
     await server.listen(ENV.PORT as string);
