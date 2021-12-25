@@ -13,18 +13,18 @@ server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);
 
-server.setErrorHandler(function setErrorHandler(
+server.setErrorHandler((
   err: FastifyError,
-  _req: FastifyRequest,
-  _reply: FastifyReply
-) {
+  _request: FastifyRequest,
+  reply: FastifyReply
+) => {
   if (+err.code > 500) {
     server.log.error(err);
-    throw err;
+    reply.status(+err.code || 500).send(err);
   }
 });
 
-server.addHook('preHandler', function (req, _reply, done) {
+server.addHook('preHandler', (req, _reply, done) => {
   if (req.body) {
     req.log.info({ body: req.body }, 'parsed body');
   }

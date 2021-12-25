@@ -1,18 +1,18 @@
 import pino from 'pino';
+import pinoms, { Streams } from 'pino-multi-stream';
 import ENV from './common/config';
 
-// import pinoms, { Streams } from 'pino-multi-stream';
 
-// const multistream = pinoms.multistream;
+const {multistream} = pinoms;
 
-// const errorLog = pino.destination('./log/error.log');
-// const allLog = pino.destination('./log/log.log');
+const errorLog = pino.destination('./src/log/error.log');
+const allLog = pino.destination('./src/log/log.log');
 
-// const streams: Streams = [
-//   { stream: process.stdout },
-//   { level: 'error', stream: errorLog },
-//   { stream: allLog },
-// ];
+const streams: Streams = [
+  { stream: process.stdout },
+  { level: 'error', stream: errorLog },
+  { stream: allLog },
+];
 
 export const logger = pino(
   {
@@ -37,6 +37,6 @@ export const logger = pino(
         };
       },
     },
-  }
-  //   multistream(streams)
+  },
+  multistream(streams)
 );
