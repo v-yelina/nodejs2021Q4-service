@@ -4,8 +4,8 @@ services:
     build: .
     ports:
       - ${PORT}:${PORT}
-    environent:
-      - PORT=4000
+    environment:
+      - PORT=${PORT}
   postgres:
     build: ./database/
     ports:
