@@ -19,6 +19,8 @@ services:
     volumes:
       - ./logs:${WORKDIR}/logs
       - ./src:${WORKDIR}/src
+    networks:
+      - myNetwork
   postgres:
     image: vyelina/postgres
     env_file: .env
@@ -32,3 +34,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - myNetwork
+  
+networks:
+  myNetwork:
+    driver: bridge
