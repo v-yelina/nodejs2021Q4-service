@@ -2,11 +2,10 @@ import pino from 'pino';
 import pinoms, { Streams } from 'pino-multi-stream';
 import ENV from './common/config';
 
+const { multistream } = pinoms;
 
-const {multistream} = pinoms;
-
-const errorLog = pino.destination('./src/log/error.log');
-const allLog = pino.destination('./src/log/log.log');
+const errorLog = pino.destination('./logs/error.log');
+const allLog = pino.destination('./logs/log.log');
 
 const streams: Streams = [
   { stream: process.stdout },

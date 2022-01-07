@@ -1,8 +1,10 @@
 FROM node:16.13.1-alpine
-WORKDIR /usr/app
+ARG PORT
+ARG WORKDIR
+RUN mkdir -p ${WORKDIR}
+WORKDIR ${WORKDIR}
 COPY package*.json .
-COPY tsconfig.json .
 RUN npm install
 COPY . .
-EXPOSE 4000
-CMD ["npm", "start"]
+EXPOSE ${PORT}
+CMD ["npm", "run", "dev"]

@@ -1,15 +1,33 @@
-version: '1'
+version: '3.8'
 services:
   node:
-    build: .
+    image: vyelina/node
+    env_file: .env
+    build:
+      context: .
+      args:
+        PORT: ${PORT}
+        WORKDIR: ${WORKDIR}
     ports:
       - ${PORT}:${PORT}
+    restart: always
+    depends_on:
+      - postgres
     environment:
       - PORT=${PORT}
+      - WORKDIR=${WORKDIR}
+    volumes:
+      - ./logs:${WORKDIR}/logs
+      - ./src:${WORKDIR}/src
   postgres:
+    image: vyelina/postgres
+    env_file: .env
     build: ./database/
+    restart: always
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./pg_data:${WORKDIR}/pg_data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

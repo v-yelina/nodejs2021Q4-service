@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+
+# Devenv
+.github
+.idea
+.vscode
+.env
+.eslintignore
+.eslintrc.json
+.prettierrc
+README.md
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# DB
+database
+pg_data
+
+# Dependencies
+node_modules
+
+# Other
+src
