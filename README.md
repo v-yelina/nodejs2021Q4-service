@@ -9,7 +9,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/v-yelina/nodejs2021Q4-service.git
 ```
 
 ## Installing NPM modules
