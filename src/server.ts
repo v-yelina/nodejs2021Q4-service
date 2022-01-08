@@ -4,6 +4,7 @@ import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
 import { logger } from './logger';
+import { request } from 'http';
 
 const server = fastify({
   logger,
@@ -39,6 +40,12 @@ process.on('unhandledRejection', (err) => {
   server.close();
   server.log.fatal(err);
   process.exit(1);
+});
+
+server.get('/', (req, reply) => {
+  reply.send({
+    hello: "The default route isn't implemented yet, try /users or /boards",
+  });
 });
 
 // throw Error('oops');
