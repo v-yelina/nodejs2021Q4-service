@@ -3,7 +3,7 @@ ARG PORT
 ARG WORKDIR
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE ${PORT}
