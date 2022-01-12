@@ -4,7 +4,7 @@ ARG WORKDIR
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 COPY package*.json ./
-RUN npm install
+RUN npm ci && npm cache clean --force
 COPY . .
 EXPOSE ${PORT}
 CMD ["npm", "run", "dev"]
