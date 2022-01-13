@@ -9,6 +9,7 @@
     "./src/**/*.ts"
   ],
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es2016",                                  
     "module": "commonjs",                                
     "rootDir": "./src",                                  
