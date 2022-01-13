@@ -4,10 +4,14 @@ import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
 import { logger } from './logger';
-import { request } from 'http';
+import 'reflect-metadata';
 
 const server = fastify({
   logger,
+});
+
+server.register(require('fastify-postgres'), {
+  connectionString: 'postgres://postgres@localhost/postgres',
 });
 
 server.register(userRoutes);

@@ -19,5 +19,7 @@
     "strict": true,                                      
     "noImplicitAny": true,                           
     "skipLibCheck": true                                 
-  }
+  },
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true,
 }
