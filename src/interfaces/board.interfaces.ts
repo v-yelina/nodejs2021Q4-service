@@ -27,4 +27,10 @@ interface IBoardUpdate {
   }[];
 }
 
-export { IBoard, INewBoard, IBoardUpdate };
+interface IColumn {
+  id: string;
+  title: string;
+  order: number;
+}
+
+export { IBoard, INewBoard, IBoardUpdate, IColumn };

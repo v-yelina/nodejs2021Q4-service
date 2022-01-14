@@ -1,24 +1,20 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { IBoard } from '../interfaces/board.interfaces';
 import { EBoard } from './board.entity';
 
 @Entity('Columns')
 export class EColumn {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column()
-  title: string;
+  title?: string;
 
   @Column()
-  order: number;
+  order?: number;
 
-  @ManyToOne(() => Board, (board) => board.columns, { cascade: true })
-  @JoinColumn({ name: 'board_column' })
-  board: EBoard;
+  @ManyToOne(() => EBoard, {
+    onDelete: 'CASCADE',
+  })
+  board?: IBoard;
 }

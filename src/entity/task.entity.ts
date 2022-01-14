@@ -1,25 +1,38 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { IBoard, IColumn } from '../interfaces/board.interfaces';
+import { IUser } from '../interfaces/user.interfaces';
+import { EBoard } from './board.entity';
+import { EUser } from './user.entity';
 
 @Entity('Tasks')
 export class ETask {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column()
-  title: string;
+  title?: string;
 
   @Column()
-  order: number;
+  order?: number;
 
   @Column()
-  description: string;
+  description?: string;
 
   @Column()
-  userId: string | null;
+  userId?: string | null;
 
   @Column()
-  boardId: string | null;
+  boardId?: string | null;
 
   @Column()
-  columnId: string | null;
+  columnId?: string | null;
+
+  @ManyToOne(() => EUser, { onDelete: 'SET NULL' })
+  user?: IUser;
+
+  @ManyToOne(() => EBoard, { onDelete: 'CASCADE' })
+  board?: IBoard;
+
+  @ManyToOne(() => Column, { onDelete: 'SET NULL' })
+  column?: IColumn;
 }
