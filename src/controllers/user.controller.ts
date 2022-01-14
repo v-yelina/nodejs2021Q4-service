@@ -97,16 +97,16 @@ export async function updateUser(
   const updatedUser: IUser = { id, ...data };
   // users.splice(indexToChange, 1, updatedUser);
 
-  const update = await getRepository(EUser).update(
+  const updateUser = await getRepository(EUser).update(
     { id: id },
     {
       ...data,
     }
   );
 
-  return update.affected
+  return updateUser.affected
     ? reply.code(200).send(reply.status(200).send(updatedUser))
-    : reply.code(404).send('User with such id not found');
+    : reply.code(404).send('User with such id is not found');
 
   // return reply.status(200).send(updatedUser);
 }
