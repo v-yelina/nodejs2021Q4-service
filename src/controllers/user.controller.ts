@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
 import { users, tasks } from '../bd';
 import { EUser } from '../entity/user.entity';
-import { ConnectionManager, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 /**
  * Returns all users
