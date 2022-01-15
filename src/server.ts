@@ -5,13 +5,11 @@ import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
 import { logger } from './logger';
 import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import ormconfig from './common/ormconfig';
 
 const server = fastify({
   logger,
-});
-
-server.register(require('fastify-postgres'), {
-  connectionString: 'postgres://postgres@localhost/postgres',
 });
 
 server.register(userRoutes);
@@ -63,4 +61,11 @@ const start = async () => {
   }
 };
 
-start();
+createConnection(ormconfig)
+  .then(async (connection) => {
+    server.log.info(
+      `TypeORM connected to ${connection.options.type} database on port ${ENV.POSTGRES_PORT}`
+    );
+    start();
+  })
+  .catch((error) => console.log(error));

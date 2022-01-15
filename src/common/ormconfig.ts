@@ -1,20 +1,16 @@
 import { ConnectionOptions } from 'typeorm';
+import ENV from './config';
 
-const {
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-} = require('./config');
-
-const config: ConnectionOptions = {
+const ormconfig: ConnectionOptions = {
   type: 'postgres',
-  host: POSTGRES_HOST,
-  port: POSTGRES_PORT,
-  database: POSTGRES_DB,
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
+  host: ENV.POSTGRES_HOST,
+  port:
+    parseInt(ENV.POSTGRES_PORT as string, 10) ||
+    parseInt(ENV.POSTGRES_EXTERNAL_PORT as string, 10) ||
+    5432,
+  database: ENV.POSTGRES_DB,
+  username: ENV.POSTGRES_USER,
+  password: ENV.POSTGRES_PASSWORD,
   entities: ['src/**/*.model{.ts,.js}', 'build/**/*.model{.ts,.js}'],
   synchronize: false,
   migrationsRun: true,
@@ -24,4 +20,4 @@ const config: ConnectionOptions = {
   },
 };
 
-export default config;
+export default ormconfig;

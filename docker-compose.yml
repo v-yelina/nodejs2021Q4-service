@@ -27,7 +27,7 @@ services:
     build: ./database/
     restart: always
     ports:
-      - ${POSTGRES_EXTERNAL_PORT}:${POSTGRES_PORT}
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - ./pg_data:${WORKDIR}/pg_data
     environment:
