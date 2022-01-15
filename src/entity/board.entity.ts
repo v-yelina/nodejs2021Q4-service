@@ -7,7 +7,7 @@ export class EBoard {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   title?: string;
 
   @OneToMany(() => Column, ({ board }: { board: IBoard }) => board, {
@@ -16,5 +16,5 @@ export class EBoard {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  columns?: EColumn[];
+  columns?: EColumn[] | null;
 }

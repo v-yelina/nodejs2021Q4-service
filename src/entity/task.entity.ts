@@ -9,22 +9,22 @@ export class ETask {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   title?: string;
 
-  @Column()
+  @Column('integer')
   order?: number;
 
-  @Column()
+  @Column('text')
   description?: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   userId?: string | null;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   boardId?: string | null;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   columnId?: string | null;
 
   @ManyToOne(() => EUser, { onDelete: 'SET NULL' })

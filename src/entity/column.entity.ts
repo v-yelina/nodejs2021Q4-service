@@ -7,11 +7,14 @@ export class EColumn {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   title?: string;
 
-  @Column()
+  @Column('integer')
   order?: number;
+
+  @Column('varchar')
+  boardId?: string;
 
   @ManyToOne(() => EBoard, {
     onDelete: 'CASCADE',

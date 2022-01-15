@@ -5,12 +5,12 @@ export class EUser {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   login?: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   password?: string;
 }
