@@ -1,4 +1,4 @@
-const getTasksByBoardValidation = {
+export const getAllTasksByBoardSchema = {
   params: {
     boardId: { type: 'string' },
   },
@@ -21,7 +21,7 @@ const getTasksByBoardValidation = {
   },
 };
 
-const getTaskValidation = {
+export const getOneTaskSchema = {
   params: {
     boardId: { type: 'string' },
     id: { type: 'string' },
@@ -42,10 +42,9 @@ const getTaskValidation = {
   },
 };
 
-const addTaskValidation = {
+export const addTaskSchema = {
   params: {
     boardId: { type: 'string' },
-    id: { type: 'string' },
   },
   body: {
     type: 'object',
@@ -74,8 +73,46 @@ const addTaskValidation = {
   },
 };
 
-module.exports = {
-  getTaskValidation,
-  addTaskValidation,
-  getTasksByBoardValidation,
+export const updateTaskSchema = {
+  params: {
+    boardId: { type: 'string' },
+    id: { type: 'string' },
+  },
+  body: {
+    type: 'object',
+    required: ['title'],
+    properties: {
+      title: { type: 'string' },
+      order: { type: 'integer' },
+      description: { type: 'string' },
+      userId: { type: ['string', 'null'] },
+      columnId: { type: ['string', 'null'] },
+    },
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        order: { type: 'integer' },
+        description: { type: 'string' },
+        userId: { type: ['string', 'null'] },
+        boardId: { type: ['string', 'null'] },
+        columnId: { type: ['string', 'null'] },
+      },
+    },
+  },
+};
+
+export const deleteTaskSchema = {
+  params: {
+    boardId: { type: 'string' },
+    id: { type: 'string' },
+  },
+  response: {
+    204: {
+      type: 'string',
+    },
+  },
 };
