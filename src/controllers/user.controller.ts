@@ -1,9 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
-import { users, tasks } from '../bd';
-import { EUser } from '../entity/user.entity';
 import { getRepository } from 'typeorm';
+import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
+import { EUser } from '../entity/user.entity';
 
 /**
  * Returns all users
@@ -17,14 +16,6 @@ export async function getAllUsers(
   _request: FastifyRequest,
   reply: FastifyReply
 ) {
-  // const res = users.length
-  //   ? users.map((user: IUser) => ({
-  //       id: user.id,
-  //       name: user.name,
-  //       login: user.login,
-  //     }))
-  //   : users;
-
   const res = await getRepository(EUser).find();
 
   return reply.code(200).send(res);
@@ -43,9 +34,8 @@ export async function getOneUser(
   reply: FastifyReply
 ): Promise<{ name: string; id: string; login: string } | undefined> {
   const { id } = request.params;
-  // const user: IUser | undefined = users.find((us: IUser) => us.id === id);
   const user: EUser | undefined = await getRepository(EUser).findOne({
-    where: { id: id },
+    where: { id },
   });
   return user
     ? reply.send({ id: user.id, name: user.name, login: user.login })
@@ -66,7 +56,6 @@ export async function addUser(
 ): Promise<{ name: string; id: string; login: string } | undefined> {
   const data = request.body;
   const newUser: INewUser | undefined = { id: uuid(), ...data };
-  // users.push(newUser);
   await getRepository(EUser).insert([newUser]);
   return reply
     .status(201)
@@ -89,26 +78,18 @@ export async function updateUser(
 > {
   const { id } = request.params;
   const data = request.body;
-  // const indexToChange: number = users.findIndex(
-  //   (user: IUser) => user.id === id
-  // );
-  // if (indexToChange === -1)
-  //   return reply.code(404).send('User with such id not found');
   const updatedUser: IUser = { id, ...data };
-  // users.splice(indexToChange, 1, updatedUser);
 
-  const updateUser = await getRepository(EUser).update(
-    { id: id },
+  const updUser = await getRepository(EUser).update(
+    { id },
     {
       ...data,
     }
   );
 
-  return updateUser.affected
-    ? reply.code(200).send(reply.status(200).send(updatedUser))
-    : reply.code(404).send('User with such id is not found');
-
-  // return reply.status(200).send(updatedUser);
+  return updUser.affected
+    ? reply.status(200).send(updatedUser)
+    : reply.status(404).send('User with such id is not found');
 }
 
 /**
@@ -125,26 +106,10 @@ export async function deleteUser(
 ): Promise<{ name: string; id: string; login: string } | undefined> {
   const { id } = request.params;
 
-  // for (let i = 0; i < tasks.length; i += 1) {
-  //   if (tasks[i].userId === id) {
-  //     tasks[i].userId = null;
-  //   }
-  // }
-
-  // const indexToDelete: number = users.findIndex(
-  //   (user: IUser) => user.id === id
-  // );
-  // if (indexToDelete === -1) {
-  //   return reply.status(404).send('User with such ID was not found');
-  // }
-  // users.splice(indexToDelete, 1);
-
-  const deleteUser = await getRepository(EUser).delete({
-    id: id,
+  const delUser = await getRepository(EUser).delete({
+    id,
   });
-  return deleteUser.affected
+  return delUser.affected
     ? reply.status(204).send()
     : reply.status(404).send('User with such ID was not found');
-
-  // return reply.status(204).send();
 }

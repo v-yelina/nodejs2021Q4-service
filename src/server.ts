@@ -1,12 +1,12 @@
 import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import ENV from './common/config';
+import { createConnection } from 'typeorm';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
 import { logger } from './logger';
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
 import ormconfig from './common/ormconfig';
+import ENV from './common/config';
 
 const server = fastify({
   logger,

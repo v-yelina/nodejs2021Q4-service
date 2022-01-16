@@ -36,6 +36,7 @@
   ],
   "rules": {
     "import/extensions": "off",
+    "import/no-cycle": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",

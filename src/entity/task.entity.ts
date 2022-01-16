@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { IBoard, IColumn } from '../interfaces/board.interfaces';
+import { IBoard } from '../interfaces/board.interfaces';
 import { IUser } from '../interfaces/user.interfaces';
 import { EBoard } from './board.entity';
 import { EColumn } from './column.entity';

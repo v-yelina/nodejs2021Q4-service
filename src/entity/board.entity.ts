@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { IBoard } from '../interfaces/board.interfaces';
 import { EColumn } from './column.entity';
 
 @Entity('Boards')
@@ -10,7 +9,7 @@ export class EBoard {
   @Column('varchar', { length: 50 })
   title?: string;
 
-  @OneToMany(() => EColumn, ({ board }: { board: IBoard }) => board, {
+  @OneToMany(() => EColumn, ({ board }: { board: EBoard }) => board, {
     nullable: true,
     eager: true,
     cascade: true,
