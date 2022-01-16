@@ -1,11 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { getRepository } from 'typeorm';
 import {
   IBoard,
   INewBoard,
   IBoardUpdate,
 } from '../interfaces/board.interfaces';
-import { boards, tasks } from '../bd';
+import { EBoard } from '../entity/board.entity';
 
 /**
  * Returns all boards
@@ -19,7 +20,9 @@ export async function getAllBoards(
   _request: FastifyRequest,
   reply: FastifyReply
 ) {
-  return reply.code(200).send(boards);
+  const res = await getRepository(EBoard).find();
+
+  return reply.code(200).send(res);
 }
 
 /**
@@ -46,12 +49,13 @@ export async function getOneBoard(
   | undefined
 > {
   const id = request.url.split('/')[2];
-  const board = boards.find((b) => b.id === id);
-  if (!board)
-    return reply
-      .code(404)
-      .send({ message: 'Board with such ID was not found' });
-  return reply.code(200).send(board);
+
+  const board = await getRepository(EBoard).findOne({
+    where: { id },
+  });
+  return !board
+    ? reply.code(404).send({ message: 'Board with such ID was not found' })
+    : reply.code(200).send(board);
 }
 
 /**
@@ -79,7 +83,9 @@ export async function addBoard(
 > {
   const data = request.body;
   const newBoard: INewBoard | undefined = { id: uuid(), ...data };
-  boards.push(newBoard);
+
+  await getRepository(EBoard).insert([newBoard]);
+
   return reply.code(201).send(newBoard);
 }
 
@@ -108,15 +114,18 @@ export async function updateBoard(
 > {
   const { id } = request.params;
   const data = request.body;
-  const indexToChange: number = boards.findIndex(
-    (board: IBoard) => board.id === id
-  );
-  if (indexToChange === -1)
-    return reply.code(404).send('Board with such id not found');
   const updatedBoard: IBoard = { id, ...data };
-  boards.splice(indexToChange, 1, updatedBoard);
 
-  return reply.status(200).send(updatedBoard);
+  const updBoard = await getRepository(EBoard).update(
+    { id },
+    {
+      ...data,
+    }
+  );
+
+  return updBoard.affected
+    ? reply.status(200).send(updatedBoard)
+    : reply.status(404).send('Board with such id is not found');
 }
 
 /**
@@ -144,18 +153,10 @@ export async function deleteBoard(
 > {
   const { id } = request.params;
 
-  for (let i = 0; i < tasks.length; i + 1) {
-    if (tasks[i].boardId === id) {
-      tasks.splice(i, 1);
-    }
-  }
-
-  const indexToDelete: number = boards.findIndex(
-    (board: IBoard) => board.id === id
-  );
-  if (indexToDelete === -1) {
-    return reply.status(404).send('Board with such ID was not found');
-  }
-  boards.splice(indexToDelete, 1);
-  return reply.code(204).send();
+  const delBoard = await getRepository(EBoard).delete({
+    id,
+  });
+  return delBoard.affected
+    ? reply.status(204).send()
+    : reply.status(404).send('Board with such ID was not found');
 }

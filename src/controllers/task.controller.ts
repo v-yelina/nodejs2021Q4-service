@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { getRepository } from 'typeorm';
 import { ITask, INewTask, ITaskUpdate } from '../interfaces/task.interfaces';
-import { tasks } from '../bd';
+import { ETask } from '../entity/task.entity';
 
 /**
  * Returns all tasks of a board with given id
@@ -16,10 +17,12 @@ export async function getAllTasksByBoard(
   reply: FastifyReply
 ) {
   const boardId = request.url.split('/')[2];
-  const tasksByBoard = tasks.filter((task) => task.boardId === boardId);
-  if (!tasksByBoard)
-    return reply.code(404).send({ message: 'Tasks not found' });
-  return reply.code(200).send(tasksByBoard);
+  const tasksByBoard = await getRepository(ETask).find({
+    where: { boardId },
+  });
+  return !tasksByBoard
+    ? reply.code(404).send({ message: 'Tasks not found' })
+    : reply.code(200).send(tasksByBoard);
 }
 
 /**
@@ -46,10 +49,12 @@ export async function getOneTask(
   | undefined
 > {
   const id = request.url.split('/')[4];
-  const task = tasks.find((item) => item.id === id);
-  if (!task) return reply.code(404).send({ message: 'Task not found' });
-
-  return reply.code(200).send(task);
+  const task = await getRepository(ETask).findOne({
+    where: { id },
+  });
+  return !task
+    ? reply.code(404).send({ message: 'Task not found' })
+    : reply.code(200).send(task);
 }
 
 /**
@@ -84,9 +89,7 @@ export async function addTask(
     ...data,
     boardId,
   };
-  console.log(tasks);
-  tasks.push(newTask);
-  console.log(tasks);
+  await getRepository(ETask).insert([newTask]);
 
   return reply.code(201).send(newTask);
 }
@@ -107,16 +110,18 @@ export async function updateTask(
 > {
   const id = request.url.split('/')[4];
   const data = request.body;
-  const indexToChange: number = tasks.findIndex(
-    (task: ITask) => task.id === id
-  );
-  if (indexToChange === -1) {
-    return reply.code(404).send('Task with such id not found');
-  }
   const updatedTask: ITask = { id, ...data };
-  tasks.splice(indexToChange, 1, updatedTask);
 
-  return reply.status(200).send(updatedTask);
+  const updTask = await getRepository(ETask).update(
+    { id },
+    {
+      ...data,
+    }
+  );
+
+  return updTask.affected
+    ? reply.status(200).send(updatedTask)
+    : reply.status(404).send('Task with such id is not found');
 }
 
 /**
@@ -143,12 +148,11 @@ export async function deleteTask(
   | undefined
 > {
   const id = request.url.split('/')[4];
-  const indexToDelete: number = tasks.findIndex(
-    (task: ITask) => task.id === id
-  );
-  if (indexToDelete === -1) {
-    return reply.status(404).send('User with such ID was not found');
-  }
-  tasks.splice(indexToDelete, 1);
-  return reply.code(204).send();
+
+  const delTask = await getRepository(ETask).delete({
+    id,
+  });
+  return delTask.affected
+    ? reply.status(204).send()
+    : reply.status(404).send('Task with such ID was not found');
 }

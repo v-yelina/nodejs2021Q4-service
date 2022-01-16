@@ -9,15 +9,19 @@
     "./src/**/*.ts"
   ],
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es2016",                                  
     "module": "commonjs",                                
-    "rootDir": "./src",                                  
-    "allowJs": true,                                  
+    "rootDir": "./src",   
+    "baseUrl": "./",                               
+    "allowJs": false,                                  
     "outDir": "./build",                                  
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,            
     "strict": true,                                      
     "noImplicitAny": true,                           
     "skipLibCheck": true                                 
-  }
+  },
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true,
 }
