@@ -11,7 +11,7 @@ const ormconfig: ConnectionOptions = {
   database: ENV.POSTGRES_DB,
   username: ENV.POSTGRES_USER,
   password: ENV.POSTGRES_PASSWORD,
-  entities: ['src/**/*.model{.ts,.js}', 'build/**/*.model{.ts,.js}'],
+  entities: ['src/entity/*.ts'],
   synchronize: false,
   migrationsRun: true,
   migrations: ['src/migrations/*.ts'],

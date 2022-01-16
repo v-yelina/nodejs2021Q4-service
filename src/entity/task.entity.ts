@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { IBoard, IColumn } from '../interfaces/board.interfaces';
 import { IUser } from '../interfaces/user.interfaces';
 import { EBoard } from './board.entity';
+import { EColumn } from './column.entity';
 import { EUser } from './user.entity';
 
 @Entity('Tasks')
@@ -33,6 +34,6 @@ export class ETask {
   @ManyToOne(() => EBoard, { onDelete: 'CASCADE' })
   board?: IBoard;
 
-  @ManyToOne(() => Column, { onDelete: 'SET NULL' })
-  column?: IColumn;
+  @ManyToOne(() => EColumn, { onDelete: 'SET NULL' })
+  column?: EColumn[];
 }

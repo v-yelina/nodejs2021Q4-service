@@ -10,11 +10,11 @@ export class EBoard {
   @Column('varchar', { length: 50 })
   title?: string;
 
-  @OneToMany(() => Column, ({ board }: { board: IBoard }) => board, {
+  @OneToMany(() => EColumn, ({ board }: { board: IBoard }) => board, {
     nullable: true,
     eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })
-  columns?: EColumn[] | null;
+  columns?: EColumn[];
 }
