@@ -5,6 +5,9 @@
     "./typings/**/*",
     "./build/**/*" 
   ],
+  "include": [
+    "./src/**/*.ts"
+  ],
   "compilerOptions": {
     "target": "es2016",                                  
     "module": "commonjs",                                

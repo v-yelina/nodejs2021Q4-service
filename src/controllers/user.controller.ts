@@ -106,7 +106,7 @@ export async function deleteUser(
 ): Promise<{ name: string; id: string; login: string } | undefined> {
   const { id } = request.params;
 
-  for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i += 1) {
     if (tasks[i].userId === id) {
       tasks[i].userId = null;
     }

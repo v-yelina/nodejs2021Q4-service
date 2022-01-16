@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  node:
+    image: vyelina/node
+    env_file: .env
+    build:
+      context: .
+      args:
+        PORT: ${PORT}
+        WORKDIR: ${WORKDIR}
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - PORT=${PORT}
+      - WORKDIR=${WORKDIR}
+    volumes:
+      - ./logs:${WORKDIR}/logs
+      - ./src:${WORKDIR}/src
+    networks:
+      - myNetwork
+  postgres:
+    image: vyelina/postgres
+    env_file: .env
+    build: ./database/
+    restart: always
+    ports:
+      - ${POSTGRES_EXTERNAL_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./pg_data:${WORKDIR}/pg_data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - myNetwork
+  
+networks:
+  myNetwork:
+    driver: bridge

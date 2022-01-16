@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import {
-  getAllTasks,
+  getAllTasksByBoard,
   getOneTask,
   addTask,
   updateTask,
@@ -27,7 +27,7 @@ export const taskRoutes: FastifyPluginAsync = async (
   server.get(
     '/boards/:boardId/tasks',
     { schema: getAllTasksByBoardSchema },
-    getAllTasks
+    getAllTasksByBoard
   );
   server.get(
     '/boards/:boardId/tasks/:id',
