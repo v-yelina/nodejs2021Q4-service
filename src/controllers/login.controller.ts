@@ -16,7 +16,7 @@ export async function login(
   });
   if (!user) {
     return reply
-      .status(401)
+      .status(403)
       .send({ token: null, message: 'User not found or Incorrect password' });
   }
 
@@ -27,7 +27,7 @@ export async function login(
 
   if (!passwordIsValid) {
     return reply
-      .status(401)
+      .status(403)
       .send({ token: null, message: 'User not found or Incorrect password' });
   }
 
@@ -43,6 +43,6 @@ export async function login(
     id: user.id,
     name: user.name,
     login: user.login,
-    accessToken: token,
+    token: token,
   });
 }
