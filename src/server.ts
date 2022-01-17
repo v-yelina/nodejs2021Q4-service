@@ -7,6 +7,7 @@ import { logger } from './logger';
 import 'reflect-metadata';
 import ormconfig from './common/ormconfig';
 import ENV from './common/config';
+import { loginRoutes } from './routes/login.route';
 
 const server = fastify({
   logger,
@@ -15,6 +16,7 @@ const server = fastify({
 server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);
+server.register(loginRoutes);
 
 server.setErrorHandler(
   (err: FastifyError, _request: FastifyRequest, reply: FastifyReply) => {
