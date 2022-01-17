@@ -1,5 +1,5 @@
 import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
@@ -8,6 +8,7 @@ import 'reflect-metadata';
 import ormconfig from './common/ormconfig';
 import ENV from './common/config';
 import { loginRoutes } from './routes/login.route';
+import { EUser } from './entity/user.entity';
 
 const server = fastify({
   logger,
@@ -57,6 +58,10 @@ server.get('/', (req, reply) => {
 const start = async () => {
   try {
     await server.listen(ENV.PORT as string, '0.0.0.0');
+
+    await getRepository(EUser).insert([
+      { name: 'Admin', login: 'admin', password: 'admin' },
+    ]);
   } catch (err) {
     server.log.error(err);
     process.exit(1);
