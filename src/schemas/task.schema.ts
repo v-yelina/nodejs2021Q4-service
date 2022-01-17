@@ -1,3 +1,5 @@
+import { verifyToken } from 'src/middlewares/verifyToken';
+
 export const getAllTasksByBoardSchema = {
   params: {
     boardId: { type: 'string' },
@@ -19,6 +21,7 @@ export const getAllTasksByBoardSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const getOneTaskSchema = {
@@ -40,6 +43,7 @@ export const getOneTaskSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const addTaskSchema = {
@@ -71,6 +75,7 @@ export const addTaskSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const updateTaskSchema = {
@@ -103,6 +108,7 @@ export const updateTaskSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const deleteTaskSchema = {
@@ -115,4 +121,5 @@ export const deleteTaskSchema = {
       type: 'string',
     },
   },
+  preHandler: verifyToken,
 };

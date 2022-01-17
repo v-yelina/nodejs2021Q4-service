@@ -1,3 +1,5 @@
+import { verifyToken } from 'src/middlewares/verifyToken';
+
 export const getAllBoardsSchema = {
   params: {
     id: { type: 'string' },
@@ -27,6 +29,7 @@ export const getAllBoardsSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const getOneBoardSchema = {
@@ -55,6 +58,7 @@ export const getOneBoardSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const addBoardSchema = {
@@ -87,6 +91,7 @@ export const addBoardSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const updateBoardSchema = {
@@ -134,6 +139,7 @@ export const updateBoardSchema = {
       },
     },
   },
+  preHandler: verifyToken,
 };
 
 export const deleteBoardSchema = {
@@ -145,4 +151,5 @@ export const deleteBoardSchema = {
       type: 'string',
     },
   },
+  preHandler: verifyToken,
 };
