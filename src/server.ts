@@ -9,6 +9,7 @@ import ormconfig from './common/ormconfig';
 import ENV from './common/config';
 import { loginRoutes } from './routes/login.route';
 import { EUser } from './entity/user.entity';
+import bcrypt from 'bcryptjs';
 
 const server = fastify({
   logger,
@@ -60,7 +61,7 @@ const start = async () => {
     await server.listen(ENV.PORT as string, '0.0.0.0');
 
     await getRepository(EUser).insert([
-      { name: 'Admin', login: 'admin', password: 'admin' },
+      { name: 'Admin', login: 'admin', password: bcrypt.hashSync('admin', 8) },
     ]);
   } catch (err) {
     server.log.error(err);

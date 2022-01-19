@@ -1,4 +1,4 @@
-import { verifyToken } from 'src/middlewares/verifyToken';
+import verifyToken from '../middlewares/verifyToken';
 
 export const getAllTasksByBoardSchema = {
   params: {

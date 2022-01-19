@@ -11,9 +11,6 @@ export const loginSchema = {
     200: {
       type: 'object',
       properties: {
-        id: { type: 'string' },
-        name: { type: 'string' },
-        login: { type: 'string' },
         token: { type: 'string' },
       },
     },

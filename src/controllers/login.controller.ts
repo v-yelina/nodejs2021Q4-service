@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getRepository } from 'typeorm';
-import jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { IUserLogin } from '../interfaces/user.interfaces';
 import { EUser } from '../entity/user.entity';
-import ENV from 'src/common/config';
+import ENV from '../common/config';
 
 export async function login(
   request: FastifyRequest<{ Body: IUserLogin }>,
@@ -14,6 +14,8 @@ export async function login(
   const user: EUser | undefined = await getRepository(EUser).findOne({
     where: { login },
   });
+  console.log(user);
+
   if (!user) {
     return reply
       .status(403)
@@ -31,18 +33,13 @@ export async function login(
       .send({ token: null, message: 'User not found or Incorrect password' });
   }
 
-  const token = jwt.sign(
+  const token = sign(
     { id: user.id, login: user.login },
-    ENV.JWT_SECRET_KEY as string,
-    {
-      expiresIn: 86400, // in sec => 24 hours
-    }
+    ENV.JWT_SECRET_KEY as string
   );
+  console.log(token);
 
   reply.send({
-    id: user.id,
-    name: user.name,
-    login: user.login,
-    token: token,
+    token,
   });
 }

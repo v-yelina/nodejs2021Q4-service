@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getRepository } from 'typeorm';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
 import { EUser } from '../entity/user.entity';
 
@@ -59,6 +59,7 @@ export async function addUser(
     ...request.body,
     password: bcrypt.hashSync(request.body.password, 8),
   };
+
   const newUser: INewUser | undefined = { id: uuid(), ...data };
   await getRepository(EUser).insert([newUser]);
   return reply
