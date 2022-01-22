@@ -31,7 +31,7 @@ export const boardRoutes: FastifyPluginAsync = async (
   );
   server.get(
     '/boards/:id',
-    { preHandler: verifyToken, schema: getOneBoardSchema },
+    { schema: getOneBoardSchema, preHandler: verifyToken },
     // @ts-ignore
     getOneBoard
   );

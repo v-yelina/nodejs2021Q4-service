@@ -20,12 +20,12 @@ function verifyToken(
     });
   }
 
-  jwt.verify(token as string, ENV.JWT_SECRET_KEY as Secret, (err, decoded) => {
+  jwt.verify(token as string, ENV.JWT_SECRET_KEY as Secret, (err) => {
     if (err) {
       return reply.status(401).send({ message: 'Unauthorized' });
     }
   });
-  done();
+  return done();
 }
 
 export default verifyToken;

@@ -1,5 +1,3 @@
-import verifyToken from '../middlewares/verifyToken';
-
 export const getAllTasksByBoardSchema = {
   params: {
     boardId: { type: 'string' },

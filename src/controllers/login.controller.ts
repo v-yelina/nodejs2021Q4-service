@@ -37,7 +37,7 @@ export async function userLogin(
     ENV.JWT_SECRET_KEY as string
   );
 
-  reply.send({
+  return reply.send({
     token,
   });
 }

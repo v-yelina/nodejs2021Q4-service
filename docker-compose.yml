@@ -2,6 +2,7 @@ version: '3.3'
 services:
   node:
     image: vyelina/node
+    container_name: nodejs2021q4-service-node-1
     env_file: .env
     build:
       context: .
@@ -23,7 +24,7 @@ services:
       - myNetwork
   postgres:
     image: vyelina/postgres
-
+    container_name: nodejs2021q4-service-postgres-1
     env_file: .env
     build: ./database/
     restart: always
