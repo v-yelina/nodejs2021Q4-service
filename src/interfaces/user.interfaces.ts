@@ -18,4 +18,9 @@ interface IUserUpdate {
   password: string;
 }
 
-export { IUser, INewUser, IUserUpdate};
+interface IUserLogin {
+  login: string;
+  password: string;
+}
+
+export { IUser, INewUser, IUserUpdate, IUserLogin };

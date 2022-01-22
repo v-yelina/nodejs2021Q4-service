@@ -38,10 +38,14 @@
     "import/extensions": "off",
     "import/no-cycle": "off",
     "linebreak-style": "off",
+    "consistent-return": "off",
+    "prefer-destructuring": "off",
+    "no-unused-vars": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/ban-ts-comment": "off",
     "node/no-missing-import": [
       "error",
       {

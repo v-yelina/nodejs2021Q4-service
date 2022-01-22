@@ -1,5 +1,6 @@
 import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
@@ -7,6 +8,8 @@ import { logger } from './logger';
 import 'reflect-metadata';
 import ormconfig from './common/ormconfig';
 import ENV from './common/config';
+import { loginRoutes } from './routes/login.route';
+import { EUser } from './entity/user.entity';
 
 const server = fastify({
   logger,
@@ -15,6 +18,7 @@ const server = fastify({
 server.register(userRoutes);
 server.register(taskRoutes);
 server.register(boardRoutes);
+server.register(loginRoutes);
 
 server.setErrorHandler(
   (err: FastifyError, _request: FastifyRequest, reply: FastifyReply) => {
@@ -55,6 +59,10 @@ server.get('/', (req, reply) => {
 const start = async () => {
   try {
     await server.listen(ENV.PORT as string, '0.0.0.0');
+
+    await getRepository(EUser).insert([
+      { name: 'Admin', login: 'admin', password: bcrypt.hashSync('admin', 8) },
+    ]);
   } catch (err) {
     server.log.error(err);
     process.exit(1);
@@ -68,4 +76,4 @@ createConnection(ormconfig)
     );
     start();
   })
-  .catch((error) => console.log(error));
+  .catch((error) => server.log.error(error));

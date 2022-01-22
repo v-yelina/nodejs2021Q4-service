@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import verifyToken from '../middlewares/verifyToken';
 import {
   getAllUsers,
   getOneUser,
@@ -23,9 +24,33 @@ import {
 export const userRoutes: FastifyPluginAsync = async (
   server: FastifyInstance
 ): Promise<void> => {
-  server.get('/users', { schema: getAllUsersSchema }, getAllUsers);
-  server.get('/users/:id', { schema: getOneUserSchema }, getOneUser);
-  server.post('/users', { schema: addUserSchema }, addUser);
-  server.put('/users/:id', { schema: updateUserSchema }, updateUser);
-  server.delete('/users/:id', { schema: deleteUserSchema }, deleteUser);
+  server.get(
+    '/users',
+    { preHandler: verifyToken, schema: getAllUsersSchema },
+    getAllUsers
+  );
+  server.get(
+    '/users/:id',
+    { preHandler: verifyToken, schema: getOneUserSchema },
+    // @ts-ignore
+    getOneUser
+  );
+  server.post(
+    '/users',
+    { preHandler: verifyToken, schema: addUserSchema },
+    // @ts-ignore
+    addUser
+  );
+  server.put(
+    '/users/:id',
+    { preHandler: verifyToken, schema: updateUserSchema },
+    // @ts-ignore
+    updateUser
+  );
+  server.delete(
+    '/users/:id',
+    { preHandler: verifyToken, schema: deleteUserSchema },
+    // @ts-ignore
+    deleteUser
+  );
 };

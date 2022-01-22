@@ -11,6 +11,6 @@ export class EUser {
   @Column('varchar', { length: 50 })
   login?: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', { length: 100 })
   password?: string;
 }
