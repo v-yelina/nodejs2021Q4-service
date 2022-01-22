@@ -1,5 +1,6 @@
 import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { createConnection, getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { userRoutes } from './routes/user.route';
 import { taskRoutes } from './routes/task.route';
 import { boardRoutes } from './routes/board.route';
@@ -9,7 +10,6 @@ import ormconfig from './common/ormconfig';
 import ENV from './common/config';
 import { loginRoutes } from './routes/login.route';
 import { EUser } from './entity/user.entity';
-import bcrypt from 'bcryptjs';
 
 const server = fastify({
   logger,
@@ -76,4 +76,4 @@ createConnection(ormconfig)
     );
     start();
   })
-  .catch((error) => console.log(error));
+  .catch((error) => server.log.error(error));

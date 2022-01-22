@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getRepository } from 'typeorm';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { IUser, INewUser, IUserUpdate } from '../interfaces/user.interfaces';
 import { EUser } from '../entity/user.entity';
 
@@ -18,8 +18,7 @@ export async function getAllUsers(
   reply: FastifyReply
 ) {
   const res = await getRepository(EUser).find();
-
-  return reply.code(200).send(res);
+  reply.code(200).send(res);
 }
 
 /**

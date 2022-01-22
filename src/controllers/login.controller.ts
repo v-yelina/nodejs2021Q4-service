@@ -6,15 +6,14 @@ import { IUserLogin } from '../interfaces/user.interfaces';
 import { EUser } from '../entity/user.entity';
 import ENV from '../common/config';
 
-export async function login(
+export async function userLogin(
   request: FastifyRequest<{ Body: IUserLogin }>,
   reply: FastifyReply
 ): Promise<{ name: string; id: string; login: string } | undefined> {
-  const login: string = request.body.login;
+  const { login } = request.body;
   const user: EUser | undefined = await getRepository(EUser).findOne({
     where: { login },
   });
-  console.log(user);
 
   if (!user) {
     return reply
@@ -37,7 +36,6 @@ export async function login(
     { id: user.id, login: user.login },
     ENV.JWT_SECRET_KEY as string
   );
-  console.log(token);
 
   reply.send({
     token,

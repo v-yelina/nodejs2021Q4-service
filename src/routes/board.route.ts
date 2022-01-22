@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import verifyToken from '../middlewares/verifyToken';
 import {
   getAllBoards,
   getOneBoard,
@@ -23,9 +24,33 @@ import {
 export const boardRoutes: FastifyPluginAsync = async (
   server: FastifyInstance
 ): Promise<void> => {
-  server.get('/boards', { schema: getAllBoardsSchema }, getAllBoards);
-  server.get('/boards/:id', { schema: getOneBoardSchema }, getOneBoard);
-  server.post('/boards', { schema: addBoardSchema }, addBoard);
-  server.put('/boards/:id', { schema: updateBoardSchema }, updateBoard);
-  server.delete('/boards/:id', { schema: deleteBoardSchema }, deleteBoard);
+  server.get(
+    '/boards',
+    { preHandler: verifyToken, schema: getAllBoardsSchema },
+    getAllBoards
+  );
+  server.get(
+    '/boards/:id',
+    { preHandler: verifyToken, schema: getOneBoardSchema },
+    // @ts-ignore
+    getOneBoard
+  );
+  server.post(
+    '/boards',
+    { preHandler: verifyToken, schema: addBoardSchema },
+    // @ts-ignore
+    addBoard
+  );
+  server.put(
+    '/boards/:id',
+    { preHandler: verifyToken, schema: updateBoardSchema },
+    // @ts-ignore
+    updateBoard
+  );
+  server.delete(
+    '/boards/:id',
+    { preHandler: verifyToken, schema: deleteBoardSchema },
+    // @ts-ignore
+    deleteBoard
+  );
 };

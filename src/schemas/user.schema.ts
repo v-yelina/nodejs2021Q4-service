@@ -1,5 +1,3 @@
-import verifyToken from '../middlewares/verifyToken';
-
 export const getAllUsersSchema = {
   params: {
     id: { type: 'string' },
@@ -17,7 +15,6 @@ export const getAllUsersSchema = {
       },
     },
   },
-  preHandler: verifyToken,
 };
 
 export const getOneUserSchema = {
@@ -34,7 +31,6 @@ export const getOneUserSchema = {
       },
     },
   },
-  preHandler: verifyToken,
 };
 
 export const addUserSchema = {
@@ -57,7 +53,6 @@ export const addUserSchema = {
       },
     },
   },
-  preHandler: verifyToken,
 };
 
 export const updateUserSchema = {
@@ -82,7 +77,6 @@ export const updateUserSchema = {
       },
     },
   },
-  preHandler: verifyToken,
 };
 
 export const deleteUserSchema = {
@@ -94,5 +88,4 @@ export const deleteUserSchema = {
       type: 'string',
     },
   },
-  preHandler: verifyToken,
 };
