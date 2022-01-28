@@ -20,8 +20,14 @@
     "forceConsistentCasingInFileNames": true,            
     "strict": true,                                      
     "noImplicitAny": true,                           
-    "skipLibCheck": true                                 
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true, 
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "incremental": true,
+    "noFallthroughCasesInSwitch": false                       
   },
-  "emitDecoratorMetadata": true,
-  "experimentalDecorators": true,
+  
 }
