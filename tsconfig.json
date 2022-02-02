@@ -7,7 +7,7 @@
   ],
   "include": [
     "./src/**/*.ts"
-  ],
+, "ormconfig.ts"  ],
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "es2016",                                  

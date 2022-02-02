@@ -3,7 +3,7 @@ import { IBoard } from '../interfaces/board.interfaces';
 import { IUser } from '../interfaces/user.interfaces';
 import { EBoard } from './board.entity';
 import { EColumn } from './column.entity';
-import { EUser } from './user.entity';
+// import { EUser } from './user.entity';
 
 @Entity('Tasks')
 export class ETask {
@@ -28,8 +28,8 @@ export class ETask {
   @Column({ type: 'varchar', nullable: true })
   columnId?: string | null;
 
-  @ManyToOne(() => EUser, { onDelete: 'SET NULL' })
-  user?: IUser;
+  // @ManyToOne(() => EUser, { onDelete: 'SET NULL' })
+  // user?: IUser;
 
   @ManyToOne(() => EBoard, { onDelete: 'CASCADE' })
   board?: IBoard;
