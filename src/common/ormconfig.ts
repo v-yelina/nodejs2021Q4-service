@@ -2,6 +2,8 @@ import { ConnectionOptions } from 'typeorm';
 import ENV from './config';
 import { EUser } from '../user/user.entity';
 import { ETask } from '../task/task.entity';
+import { EBoard } from '../board/board.entity';
+import { EColumn } from '../board/column.entity';
 
 const ormconfig: ConnectionOptions = {
   type: 'postgres',
@@ -13,7 +15,8 @@ const ormconfig: ConnectionOptions = {
   database: ENV.POSTGRES_DB || 'postgres',
   username: ENV.POSTGRES_USER || 'postgres',
   password: ENV.POSTGRES_PASSWORD || 'password',
-  entities: [EUser, ETask],
+  entities: [EUser, ETask, EBoard, EColumn],
+  synchronize: true,
 };
 
 export default ormconfig;
