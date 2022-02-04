@@ -12,8 +12,7 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<Partial<EUser>[]> {
-    const users = await this.userRepository.find();
-    return users;
+    return await this.userRepository.find();
   }
 
   async findOne(id: string): Promise<Partial<EUser> | undefined> {
@@ -45,5 +44,9 @@ export class UserService {
     const result = await this.userRepository.delete(id);
     if (result.affected === 0) return undefined;
     return true;
+  }
+
+  async findByLogin(login: string): Promise<EUser | undefined> {
+    return this.userRepository.findOne({ login });
   }
 }

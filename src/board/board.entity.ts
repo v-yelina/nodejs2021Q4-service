@@ -9,11 +9,16 @@ export class EBoard {
   @Column('varchar', { length: 50 })
   title?: string;
 
-  @OneToMany(() => EColumn, ({ board }: { board: EBoard }) => board, {
-    nullable: true,
-    eager: true,
-    cascade: true,
+  @OneToMany(() => EColumn, (column) => column.boardId, {
     onDelete: 'CASCADE',
   })
-  columns?: EColumn[];
+  columns!: EColumn[];
+
+  // @OneToMany(() => EColumn, (board) => board, {
+  //   nullable: true,
+  //   eager: true,
+  //   cascade: true,
+  //   onDelete: 'CASCADE',
+  // })
+  // columns?: EColumn[];
 }

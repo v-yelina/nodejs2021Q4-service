@@ -10,12 +10,15 @@ import {
   ParseUUIDPipe,
   Res,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { UserService } from './user.service';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -47,7 +50,7 @@ export class UserController {
   @Put(':id')
   @HttpCode(200)
   async update(
-    @Param('id', new ParseUUIDPipe()) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto
   ): Promise<Partial<CreateUserDto> | undefined> {
     const updateResult = this.userService.update(id, updateUserDto);
@@ -59,7 +62,7 @@ export class UserController {
   @HttpCode(204)
   async remove(
     @Res({ passthrough: true }) res: Response | FastifyReply,
-    @Param('id', new ParseUUIDPipe()) id: string
+    @Param('id', ParseUUIDPipe) id: string
   ): Promise<void> {
     const deleteResult = await this.userService.remove(id);
     if (!deleteResult) throw new NotFoundException();

@@ -10,12 +10,14 @@ import {
   ParseUUIDPipe,
   Res,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateBoardDto, UpdateBoardDto } from './board.dto';
 import { BoardService } from './board.service';
 
 @Controller('boards')
+@UseGuards(JwtAuthGuard)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
@@ -36,7 +38,7 @@ export class BoardController {
 
   @Post()
   @HttpCode(201)
-  create(
+  async create(
     @Body() createBoardDto: CreateBoardDto
   ): Promise<Partial<CreateBoardDto>> {
     return this.boardService.create(createBoardDto);
@@ -47,7 +49,7 @@ export class BoardController {
   async update(
     @Param('id') id: string,
     @Body() updateBoardDto: UpdateBoardDto
-  ): Promise<Partial<CreateBoardDto> | undefined> {
+  ): Promise<Partial<UpdateBoardDto> | undefined> {
     const updateResult = this.boardService.update(id, updateBoardDto);
     if (!updateResult) throw new NotFoundException();
     return updateResult;
@@ -55,10 +57,7 @@ export class BoardController {
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(
-    @Res({ passthrough: true }) res: Response | FastifyReply,
-    @Param('id') id: string
-  ): Promise<void> {
+  async remove(@Param('id') id: string): Promise<void> {
     const deleteResult = await this.boardService.remove(id);
     if (!deleteResult) throw new NotFoundException();
   }

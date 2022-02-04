@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
+import { getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { AppModule } from './app.module';
 import ENV from './common/config';
 import { EUser } from './user/user.entity';
-import { getRepository } from 'typeorm';
-import bcrypt from 'bcrypt';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

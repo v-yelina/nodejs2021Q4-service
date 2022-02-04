@@ -11,12 +11,15 @@ import {
   Res,
   NotFoundException,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateTaskDto, UpdateTaskDto } from './task.dto';
 import { TaskService } from './task.service';
 
 @Controller('boards')
+@UseGuards(JwtAuthGuard)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 

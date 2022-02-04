@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-// import { EBoard } from './board.entity';
-// import { EColumn } from './column.entity';
+import { EBoard } from '../board/board.entity';
+import { EColumn } from '../board/column.entity';
 import { EUser } from '../user/user.entity';
 
 @Entity('Tasks')
@@ -29,9 +29,9 @@ export class ETask {
   @ManyToOne(() => EUser, { onDelete: 'SET NULL' })
   user?: EUser;
 
-  // @ManyToOne(() => EBoard, { onDelete: 'CASCADE' })
-  // board?: IBoard;
+  @ManyToOne(() => EBoard, { onDelete: 'CASCADE' })
+  board?: EBoard;
 
-  // @ManyToOne(() => EColumn, { onDelete: 'SET NULL' })
-  // column?: EColumn[];
+  @ManyToOne(() => EColumn, { onDelete: 'SET NULL' })
+  column?: EColumn[];
 }

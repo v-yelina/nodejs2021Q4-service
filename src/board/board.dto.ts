@@ -13,7 +13,7 @@ export class CreateBoardDto {
   @IsUUID()
   id!: string;
 
-  @Length(5, 50)
+  @Length(5, 30)
   title!: string;
 
   @IsArray()
@@ -23,11 +23,7 @@ export class CreateBoardDto {
 }
 
 export class UpdateBoardDto {
-  // @IsOptional()
-  // @IsUUID()
-  // id!: string;
-
-  @Length(5, 50)
+  @Length(5, 30)
   title!: string;
 
   @IsArray()
