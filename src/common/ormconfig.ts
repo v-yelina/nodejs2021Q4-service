@@ -1,5 +1,9 @@
 import { ConnectionOptions } from 'typeorm';
 import ENV from './config';
+import { EUser } from '../user/user.entity';
+import { ETask } from '../task/task.entity';
+import { EBoard } from '../board/board.entity';
+import { EColumn } from '../board/column.entity';
 
 const ormconfig: ConnectionOptions = {
   type: 'postgres',
@@ -8,16 +12,11 @@ const ormconfig: ConnectionOptions = {
     parseInt(ENV.POSTGRES_PORT as string, 10) ||
     parseInt(ENV.POSTGRES_EXTERNAL_PORT as string, 10) ||
     5432,
-  database: ENV.POSTGRES_DB,
-  username: ENV.POSTGRES_USER,
-  password: ENV.POSTGRES_PASSWORD,
-  entities: ['src/entity/*.ts'],
-  synchronize: false,
-  migrationsRun: true,
-  migrations: ['src/migrations/*.ts'],
-  cli: {
-    migrationsDir: 'src/migrations',
-  },
+  database: ENV.POSTGRES_DB || 'postgres',
+  username: ENV.POSTGRES_USER || 'postgres',
+  password: ENV.POSTGRES_PASSWORD || 'password',
+  entities: [EUser, ETask, EBoard, EColumn],
+  synchronize: true,
 };
 
 export default ormconfig;
