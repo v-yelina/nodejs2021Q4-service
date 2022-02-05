@@ -22,7 +22,6 @@ export class EUser {
   @Column({
     type: 'varchar',
     nullable: false,
-    // unique: true,
   })
   login!: string;
 

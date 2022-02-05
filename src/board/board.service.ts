@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBoardDto, UpdateBoardDto } from './board.dto';
+import { CreateBoardDto } from './dto/createBoard.dto';
+import { UpdateBoardDto } from './dto/updateBoard.dto';
 import { EBoard } from './board.entity';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class BoardService {
   ) {}
 
   async findAll(): Promise<Partial<EBoard>[]> {
-    return await this.boardRepository.find();
+    return this.boardRepository.find();
   }
 
   async findOne(id: string): Promise<Partial<EBoard> | undefined> {

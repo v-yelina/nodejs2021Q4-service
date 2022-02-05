@@ -8,13 +8,12 @@ import {
   Param,
   Body,
   ParseUUIDPipe,
-  Res,
   NotFoundException,
   UseGuards,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -60,10 +59,7 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(
-    @Res({ passthrough: true }) res: Response | FastifyReply,
-    @Param('id', ParseUUIDPipe) id: string
-  ): Promise<void> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleteResult = await this.userService.remove(id);
     if (!deleteResult) throw new NotFoundException();
   }

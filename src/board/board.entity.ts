@@ -13,12 +13,4 @@ export class EBoard {
     onDelete: 'CASCADE',
   })
   columns!: EColumn[];
-
-  // @OneToMany(() => EColumn, (board) => board, {
-  //   nullable: true,
-  //   eager: true,
-  //   cascade: true,
-  //   onDelete: 'CASCADE',
-  // })
-  // columns?: EColumn[];
 }

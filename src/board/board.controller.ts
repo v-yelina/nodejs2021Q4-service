@@ -7,13 +7,12 @@ import {
   HttpCode,
   Param,
   Body,
-  ParseUUIDPipe,
-  Res,
   NotFoundException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateBoardDto, UpdateBoardDto } from './board.dto';
+import { CreateBoardDto } from './dto/createBoard.dto';
+import { UpdateBoardDto } from './dto/updateBoard.dto';
 import { BoardService } from './board.service';
 
 @Controller('boards')
@@ -27,7 +26,7 @@ export class BoardController {
     return this.boardService.findAll();
   }
 
-  @Get(':Id')
+  @Get(':id')
   @HttpCode(200)
   async findOne(@Param('id') id: string): Promise<Partial<CreateBoardDto>> {
     const board = await this.boardService.findOne(id);

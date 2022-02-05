@@ -17,8 +17,10 @@ export class AuthController {
   @Post('/login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
-    let result;
-    result = await this.authService.login(loginDto.login, loginDto.password);
+    const result = await this.authService.login(
+      loginDto.login,
+      loginDto.password
+    );
     if (!result) throw new ForbiddenException();
     return result;
   }

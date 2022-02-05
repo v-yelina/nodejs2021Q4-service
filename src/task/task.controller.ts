@@ -8,14 +8,13 @@ import {
   Param,
   Body,
   ParseUUIDPipe,
-  Res,
   NotFoundException,
   BadRequestException,
   UseGuards,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateTaskDto, UpdateTaskDto } from './task.dto';
+import { CreateTaskDto } from './dto/createTask.dto';
+import { UpdateTaskDto } from './dto/updateTask.dto';
 import { TaskService } from './task.service';
 
 @Controller('boards')
@@ -67,10 +66,7 @@ export class TaskController {
 
   @Delete(':boardId/tasks/:id')
   @HttpCode(204)
-  async remove(
-    @Res({ passthrough: true }) res: Response | FastifyReply,
-    @Param('id', new ParseUUIDPipe()) id: string
-  ): Promise<void> {
+  async remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     const deleteResult = await this.taskService.remove(id);
     if (!deleteResult) throw new NotFoundException();
   }

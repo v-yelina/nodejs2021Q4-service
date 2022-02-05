@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTaskDto, UpdateTaskDto } from './task.dto';
+import { CreateTaskDto } from './dto/createTask.dto';
+import { UpdateTaskDto } from './dto/updateTask.dto';
 import { ETask } from './task.entity';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class TaskService {
   ) {}
 
   async findAll(boardId: string): Promise<Partial<ETask>[]> {
-    return await this.taskRepository.find({ where: { boardId } });
+    return this.taskRepository.find({ where: { boardId } });
   }
 
   async findOne(
