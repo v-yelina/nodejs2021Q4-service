@@ -7,7 +7,7 @@ import { EColumn } from '../board/column.entity';
 
 const ormconfig: ConnectionOptions = {
   type: 'postgres',
-  host: ENV.POSTGRES_HOST || '192.168.178.26',
+  host: ENV.POSTGRES_HOST,
   port:
     parseInt(ENV.POSTGRES_PORT as string, 10) ||
     parseInt(ENV.POSTGRES_EXTERNAL_PORT as string, 10) ||

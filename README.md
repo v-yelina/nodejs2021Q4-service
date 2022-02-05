@@ -12,17 +12,8 @@
 git clone https://github.com/v-yelina/nodejs2021Q4-service.git
 ```
 
-## Installing NPM modules
-
-```
-npm install
-```
-
 ## Running application with Docker
 
-Build application
-```
-npm run build
 ```
 Build and run Docker images
 ```
